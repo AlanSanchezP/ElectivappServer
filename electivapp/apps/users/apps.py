@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class UsersAppConfig(AppConfig):
 
-    name = "electivapp.users"
+    name = "electivapp.apps.users"
     verbose_name = "Users"
 
     def ready(self):
