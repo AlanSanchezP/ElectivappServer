@@ -17,7 +17,7 @@ urlpatterns = [
     # User management
     path(
         "users/",
-        include("electivapp.users.urls", namespace="users"),
+        include("electivapp.apps.users.urls", namespace="users"),
     ),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
