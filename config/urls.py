@@ -19,6 +19,10 @@ urlpatterns = [
         "users/",
         include("electivapp.apps.users.urls", namespace="users"),
     ),
+    path(
+        "actividades/",
+        include("electivapp.apps.actividades.urls", namespace="actividades"),
+    ),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(
