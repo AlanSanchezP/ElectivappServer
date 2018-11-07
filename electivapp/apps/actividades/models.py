@@ -1,5 +1,7 @@
 from django.db import models
 
+from electivapp.apps.alumnos.models import Alumno
+
 CATEGORIAS = (
     ('C1', 'Cat1'),
     ('C2', 'Cat2'),
@@ -36,6 +38,11 @@ class Actividad(models.Model):
     duracion = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+    )
+
+    alumno = models.ForeignKey(
+        Alumno,
+        on_delete=models.CASCADE,
     )
     
     tipo = models.ForeignKey(
