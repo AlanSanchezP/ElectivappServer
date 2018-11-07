@@ -8,5 +8,4 @@ class AdminAlumno(admin.ModelAdmin):
 
 @admin.register(Responsable)
 class AdminResponsable(admin.ModelAdmin):
-    list_display = ('alumno',)
     list_per_page = 10000000000
