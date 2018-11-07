@@ -25,3 +25,13 @@ class Alumno(models.Model):
     )
 
     estatus = models.BooleanField()
+
+class Responsable(models.Model):
+    alumno = models.OneToOneField(
+        Alumno,
+        on_delete=models.CASCADE,
+    )
+
+    password = models.CharField(
+        max_length=20,
+    )
