@@ -26,3 +26,21 @@ class TipoActividad(models.Model):
         max_digits=5,
         decimal_places=2,
     )
+
+class Actividad(models.Model):
+    id = models.BigIntegerField(
+        auto_created=True,
+        primary_key=True,
+    )
+    
+    duracion = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+    )
+    
+    tipo = models.ForeignKey(
+        TipoActividad, 
+        on_delete=models.CASCADE,
+    )
+
+    fecha = models.DateField()
