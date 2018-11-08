@@ -18,6 +18,16 @@ class TiposActividadFormView(LoginRequiredMixin, FormView):
         form.save()
         return HttpResponseRedirect(self.get_success_url())
 
+class TiposActividadUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'actividades/tipoactividad_update.html'
+    form_class = TipoActividadForm
+    model = TipoActividad
+    success_url = reverse_lazy('actividades:lista_tipos')
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 class TiposActividadListView(LoginRequiredMixin, ListView):
     template_name = 'actividades/tipoactividad_list.html'
     model = TipoActividad
