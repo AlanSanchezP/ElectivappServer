@@ -3,6 +3,7 @@ Base settings to build other settings files upon.
 """
 
 import environ
+from django.utils.translation import ugettext_lazy as _
 
 ROOT_DIR = environ.Path(__file__) - 3  # (electivapp/config/settings/base.py - 3 = electivapp/)
 APPS_DIR = ROOT_DIR.path('electivapp')
@@ -24,7 +25,15 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # In Windows, this must be set to your system time zone.
 TIME_ZONE = 'UTC'
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'en-us'
+LOCALE_PATHS = (
+    str(ROOT_DIR.path('locale')),
+)
+LANGUAGE_CODE = 'es-MX'
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('es', _('Spanish')),
+)
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
@@ -237,7 +246,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_ADAPTER = 'electivapp.apps.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'electivapp.apps.users.adapters.SocialAccountAdapter'
-
-
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_LOGOUT_ON_GET = True
 # Your stuff...
 # ------------------------------------------------------------------------------
