@@ -19,7 +19,7 @@
             <a href="{% url 'actividades:modificar_tipo' pk=tipo.id %}" class="btn btn-primary">
                 Modificar
             </a>
-            <button type="button" data-href="a" class="btn btn-danger delete-button">
+            <button type="button" data-href="{% url 'actividades:eliminar_tipo' pk=tipo.id %}" class="btn btn-danger delete-button">
                 Eliminar
             </button>
         </div>
@@ -29,7 +29,7 @@
 
 <div id="delete_modal" class="modal fade show" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <form id="modal_action_form" class="modal-content" method="post" action="">
       <div class="modal-header">
         <h5 class="modal-title">Eliminar registro</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -40,10 +40,11 @@
         <p>¿Estas seguro de que deseas eliminar este registro?</p>
       </div>
       <div class="modal-footer">
-        <a id="modal_action_button" href="#" type="button" class="btn btn-danger">Sí</a>
+        {% csrf_token %}
+        <button class="btn btn-danger">Sí</a>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 {% endblock content %}
