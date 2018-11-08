@@ -1,1 +1,6 @@
 {% extends "base.html" %}
+
+{% block content %}
+    <a class="btn btn-success" href="{% url 'actividades:lista_tipos' %}">Administrar tipos de actividades</a>
+    <a class="btn btn-success" href="{% url 'actividades:lista_tipos' %}">Registrar créditos</a>
+{% endblock content %}
