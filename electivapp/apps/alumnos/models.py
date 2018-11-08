@@ -24,7 +24,9 @@ class Alumno(models.Model):
         choices=CARRERAS,
     )
 
-    estatus = models.BooleanField()
+    estatus = models.BooleanField(
+        default=False,
+    )
 
 class Responsable(models.Model):
     alumno = models.OneToOneField(
