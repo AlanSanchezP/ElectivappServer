@@ -1,8 +1,8 @@
 from django.urls import path
 
-from electivapp.apps.actividades import views
+from electivapp.apps.alumnos.views import AlumnosListView
 
 app_name = "alumnos"
 urlpatterns = [
-    path("", view=views.Test.as_view(), name="test"),
+    path("consulta", view=AlumnosListView.as_view(), name="lista"),
 ]
