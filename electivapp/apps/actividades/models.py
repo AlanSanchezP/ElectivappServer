@@ -10,11 +10,6 @@ CATEGORIAS = (
 
 # Create your models here.
 class TipoActividad(models.Model):
-    id = models.BigIntegerField(
-        auto_created=True,
-        primary_key=True,
-    )
-
     nombre = models.CharField(
         max_length=150,
     )
@@ -30,11 +25,6 @@ class TipoActividad(models.Model):
     )
 
 class Actividad(models.Model):
-    id = models.BigIntegerField(
-        auto_created=True,
-        primary_key=True,
-    )
-    
     duracion = models.DecimalField(
         max_digits=5,
         decimal_places=2,
