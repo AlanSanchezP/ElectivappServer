@@ -2,7 +2,7 @@
 
 {% block content %}
     <a class="btn btn-success" href="{% url 'eventos:home' %}">Administrar eventos</a>
-    <a class="btn btn-success" href="#">Administrar responsables</a>
+    <a class="btn btn-success" href="{% url 'alumnos:lista_responsables' %}">Administrar responsables</a>
     <a class="btn btn-success" href="#">Consultar alumnos</a>
     <a class="btn btn-success" href="{% url 'actividades:home' %}">Otras actividades</a>
     <a class="btn btn-success" href="#">Generar listas</a>
