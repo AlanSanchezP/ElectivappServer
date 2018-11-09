@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Alumno',
             fields=[
-                ('boleta', models.PositiveIntegerField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('boleta', models.PositiveIntegerField(serialize=False)),
                 ('nombre', models.CharField(max_length=150)),
                 ('carrera', models.CharField(choices=[('AI', 'Administración Industrial'), ('CC', 'Ciencias de la Informática'), ('II', 'Ingeniería Industrial'), ('IT', 'Ingeniería en Transportes'), ('IN', 'Ingeniería en Informática')], max_length=100)),
                 ('estatus', models.BooleanField()),
