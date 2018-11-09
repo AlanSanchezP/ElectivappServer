@@ -67,7 +67,6 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
         params = request.POST.dict()
         cantidad = int(params["cantidad"])
         errores = False
-        print(params)
 
         for i in range(1, cantidad+1):
             try:
@@ -98,7 +97,7 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
                         request, 
                         messages.ERROR, 
                         "La boleta {0} no corresponde con el alumno y/o carrera especificados.".format(boleta),
-                        "%(i)s"
+                        "{0} {1} {2} {3}".format(boleta,carrera,tipo,duracion)
                     )
             except KeyError:
                 pass
@@ -108,8 +107,13 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
             return HttpResponseRedirect(self.error_url)
 
 class CorregirActividadView(LoginRequiredMixin, TemplateView):
-    template_name = 'actividades/actividad_registrar.html'
-    success_url = reverse_lazy('home')
+    template_name = 'actividades/actividad_corregir.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CorregirActividadView, self).get_context_data(**kwargs)
+        context['carreras'] = CARRERAS
+        context['categorias'] = CATEGORIAS
+        return context
 
 class Test(FormView):
     template_name = 'users/user_form.html'
