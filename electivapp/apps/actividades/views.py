@@ -52,8 +52,13 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarActividadView, self).get_context_data(**kwargs)
+        tipos = TipoActividad.objects.all()
+        TIPOS = []
+        for tipo in tipos:
+            TIPOS.append((tipo.id,tipo.nombre))
+        TIPOS = tuple(TIPOS)
         context['carreras'] = CARRERAS
-        context['categorias'] = CATEGORIAS
+        context['categorias'] = TIPOS
         return context
 
     def insertarActividad(self, alumno, duracion, tipo):
@@ -61,7 +66,7 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
             alumno=alumno,
             duracion=duracion,
             fecha=datetime.today(),
-            tipo=TipoActividad.objects.get(categoria=tipo),
+            tipo=TipoActividad.objects.get(id=tipo),
         )
         actividad.save()
 
@@ -113,8 +118,13 @@ class CorregirActividadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(CorregirActividadView, self).get_context_data(**kwargs)
+        tipos = TipoActividad.objects.all()
+        TIPOS = []
+        for tipo in tipos:
+            TIPOS.append((tipo.id,tipo.nombre))
+        TIPOS = tuple(TIPOS)
         context['carreras'] = CARRERAS
-        context['categorias'] = CATEGORIAS
+        context['categorias'] = TIPOS
         return context
 
 class Test(FormView):

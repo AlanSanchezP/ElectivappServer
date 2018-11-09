@@ -15,7 +15,7 @@ class ResponsableForm(AlumnoForm):
     def clean(self):
         data = self.cleaned_data
         try:
-            alumno = Alumno.objects.get(pk=data["boleta"])
+            alumno = Alumno.objects.get(boleta=data["boleta"])
             if data["nombre"] != alumno.nombre or data["carrera"] != alumno.carrera:
                 raise forms.ValidationError("La boleta {0} no coincide con el nombre y/o carrera especificados".format(data["boleta"]))
         except Alumno.DoesNotExist:
@@ -30,7 +30,7 @@ class ResponsableForm(AlumnoForm):
     def save(self):
         data = self.cleaned_data
         responsable, created = Responsable.objects.get_or_create(
-            alumno=Alumno.objects.get(pk=data["boleta"])
+            alumno=Alumno.objects.get(boleta=data["boleta"])
         )
         if created:
             responsable.password = "pass"
@@ -40,7 +40,7 @@ class ResponsableUpdateForm(ResponsableForm):
     def clean(self):
         data = self.cleaned_data        
         try:
-            alumno = Alumno.objects.get(pk=data["boleta"])
+            alumno = Alumno.objects.get(boleta=data["boleta"])
             if data["nombre"] != alumno.nombre:
                 alumno.nombre = data["nombre"]
             if data["carrera"] != alumno.carrera:
