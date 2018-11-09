@@ -4,5 +4,5 @@ from electivapp.apps.actividades import views
 
 app_name = "eventos"
 urlpatterns = [
-    path("", view=views.Test.as_view(), name="test"),
+    path("", view=views.Test.as_view(), name="home"),
 ]

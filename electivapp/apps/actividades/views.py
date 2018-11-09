@@ -12,6 +12,8 @@ from .models import TipoActividad, Actividad, CATEGORIAS
 from .forms import TipoActividadForm
 
 # Create your views here.
+class ActividadesHomeView(LoginRequiredMixin, TemplateView):
+    template_name = 'pages/submenu.html'
 
 class TiposActividadListView(LoginRequiredMixin, ListView):
     template_name = 'actividades/tipoactividad_list.html'
@@ -46,7 +48,7 @@ class TiposActividadDeleteView(LoginRequiredMixin, DeleteView):
 class RegistrarActividadView(LoginRequiredMixin, TemplateView):
     template_name = 'actividades/actividad_registrar.html'
     error_url = reverse_lazy('actividades:corregir')
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('actividades:home')
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarActividadView, self).get_context_data(**kwargs)
