@@ -1,10 +1,14 @@
+import time
+from datetime import datetime
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 
-from .models import TipoActividad, Actividad
+from electivapp.apps.alumnos.models import Alumno, CARRERAS
+from .models import TipoActividad, Actividad, CATEGORIAS
 from .forms import TipoActividadForm
 
 # Create your views here.
@@ -41,9 +45,63 @@ class TiposActividadDeleteView(LoginRequiredMixin, DeleteView):
 
 class RegistrarActividadView(LoginRequiredMixin, TemplateView):
     template_name = 'actividades/actividad_registrar.html'
+    error_url = reverse_lazy('actividades:lista_tipos')
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrarActividadView, self).get_context_data(**kwargs)
+        context['carreras'] = CARRERAS
+        context['categorias'] = CATEGORIAS
+        return context
+
+    def insertarActividad(self, alumno, duracion, tipo):
+        actividad = Actividad(
+            alumno=alumno,
+            duracion=duracion,
+            fecha=datetime.today(),
+            tipo=TipoActividad.objects.get(categoria=tipo),
+        )
+        actividad.save()
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse('holi')
+        params = request.POST.dict()
+        cantidad = int(params["cantidad"])
+        errores = False
+
+        for i in range(1, cantidad+1):
+            boleta = params["boleta_{0}".format(i)]
+            duracion = params["duracion_{0}".format(i)]
+            nombre = params["nombre_{0}".format(i)]
+            carrera = params["carrera_{0}".format(i)]
+            tipo = params["tipo_{0}".format(i)]
+
+            try:
+                alumno = Alumno.objects.get(pk=boleta)
+                if nombre == alumno.nombre and carrera == alumno.carrera:
+                    self.insertarActividad(alumno, duracion, tipo)
+                else:
+                    raise Exception()
+            except Alumno.DoesNotExist:
+                alumno = Alumno(
+                    boleta=boleta, 
+                    nombre=nombre, 
+                    carrera=carrera,
+                )
+                alumno.save()
+                time.sleep(1)
+                self.insertarActividad(alumno, duracion, tipo)
+            except Exception as e:
+                errores = True
+                messages.add_message(
+                    request, 
+                    messages.ERROR, 
+                    "La boleta {0} no corresponde con el alumno y/o carrera especificados.".format(boleta),
+                    "%(i)s"
+                )
+        if errores == False:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return HttpResponseRedirect(self.error_url)
 
 class Test(FormView):
     template_name = 'users/user_form.html'
