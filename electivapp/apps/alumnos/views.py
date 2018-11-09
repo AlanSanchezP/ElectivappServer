@@ -39,8 +39,7 @@ class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
         form = self.form_class(data={
             "boleta":alumno.boleta,
             "nombre":alumno.nombre,
-            "carrera":alumno.carrera,
-            "a":"a"
+            "carrera":alumno.carrera
         })
         context = self.get_context_data(object=self.object, form=form)
         return self.render_to_response(context)
