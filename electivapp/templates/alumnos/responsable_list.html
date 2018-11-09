@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Administrar responsables{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <a href="{% url 'actividades:home' %}" class="btn btn-primary">Volver</a>
+        <h2 class="col-md-6 text-center mx-auto">Administrar responsables</h2>
+        <a href="{% url 'actividades:nuevo_tipo' %}" class="btn btn-success">Nuevo</a>
+    </div>
+
+    <div class="list-group">
+        {% for responsable in responsables %}
+        <div class="list-group-item">
+            <h4 class="list-group-item-heading">{{ responsable.alumno.nombre }}</h4>
+            <h4 class="list-group-item-heading">{{ responsable.alumno.boleta }}</h4>
+            <h4 class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }} créditos por hora</h4>
+            <a href="{% url 'actividades:modificar_tipo' pk=responsable.alumno.boleta %}" class="btn btn-warning">
+                Nueva contraseña
+            </a>
+            <a href="{% url 'actividades:modificar_tipo' pk=responsable.alumno.boleta %}" class="btn btn-primary">
+                Modificar
+            </a>
+            <button type="button" data-href="{% url 'actividades:eliminar_tipo' pk=responsable.alumno.boleta %}" class="btn btn-danger delete-button">
+                Eliminar
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="delete_modal" class="modal fade show" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <form id="modal_action_form" class="modal-content" method="post" action="">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar registro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estas seguro de que deseas eliminar este registro?</p>
+      </div>
+      <div class="modal-footer">
+        {% csrf_token %}
+        <button class="btn btn-danger">Sí</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}
