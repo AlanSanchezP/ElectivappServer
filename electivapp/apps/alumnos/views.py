@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 from .models import Alumno, Responsable
-from .forms import ResponsableForm
+from .forms import ResponsableForm, ResponsableUpdateForm
 
 # Create your views here.
 class AlumnosListView(LoginRequiredMixin, TemplateView):
@@ -29,9 +29,21 @@ class ResponsableFormView(LoginRequiredMixin, FormView):
 
 class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'alumnos/responsable_update.html'
-    form_class = ResponsableForm
+    form_class = ResponsableUpdateForm
     model = Responsable
     success_url = reverse_lazy('alumnos:lista_responsables')
+
+    def get(self, request, **kwargs):
+        self.object = Responsable.objects.get(id=kwargs['pk'])
+        alumno = self.object.alumno
+        form = self.form_class(data={
+            "boleta":alumno.boleta,
+            "nombre":alumno.nombre,
+            "carrera":alumno.carrera,
+            "a":"a"
+        })
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
 
     def form_valid(self, form):
         form.save()

@@ -15,14 +15,14 @@
         <div class="list-group-item">
             <h4 class="list-group-item-heading">{{ responsable.alumno.nombre }}</h4>
             <h4 class="list-group-item-heading">{{ responsable.alumno.boleta }}</h4>
-            <h4 class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }} créditos por hora</h4>
-            <a href="{% url 'alumnos:modificar_responsable' pk=responsable.alumno.boleta %}" class="btn btn-warning">
+            <h4 class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }}</h4>
+            <a href="{% url 'alumnos:modificar_responsable' pk=responsable.id %}" class="btn btn-warning">
                 Nueva contraseña
             </a>
-            <a href="{% url 'alumnos:modificar_responsable' pk=responsable.alumno.boleta %}" class="btn btn-primary">
+            <a href="{% url 'alumnos:modificar_responsable' pk=responsable.id %}" class="btn btn-primary">
                 Modificar
             </a>
-            <button type="button" data-href="{% url 'alumnos:eliminar_responsable' pk=responsable.alumno.boleta %}" class="btn btn-danger delete-button">
+            <button type="button" data-href="{% url 'alumnos:eliminar_responsable' pk=responsable.id %}" class="btn btn-danger delete-button">
                 Eliminar
             </button>
         </div>
