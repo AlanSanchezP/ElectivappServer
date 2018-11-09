@@ -45,7 +45,7 @@ class TiposActividadDeleteView(LoginRequiredMixin, DeleteView):
 
 class RegistrarActividadView(LoginRequiredMixin, TemplateView):
     template_name = 'actividades/actividad_registrar.html'
-    error_url = reverse_lazy('actividades:lista_tipos')
+    error_url = reverse_lazy('actividades:corregir')
     success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
@@ -67,41 +67,49 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
         params = request.POST.dict()
         cantidad = int(params["cantidad"])
         errores = False
+        print(params)
 
         for i in range(1, cantidad+1):
-            boleta = params["boleta_{0}".format(i)]
-            duracion = params["duracion_{0}".format(i)]
-            nombre = params["nombre_{0}".format(i)]
-            carrera = params["carrera_{0}".format(i)]
-            tipo = params["tipo_{0}".format(i)]
-
             try:
-                alumno = Alumno.objects.get(pk=boleta)
-                if nombre == alumno.nombre and carrera == alumno.carrera:
+                boleta = params["boleta_{0}".format(i)]
+                duracion = params["duracion_{0}".format(i)]
+                nombre = params["nombre_{0}".format(i)]
+                carrera = params["carrera_{0}".format(i)]
+                tipo = params["tipo_{0}".format(i)]
+
+                try:
+                    alumno = Alumno.objects.get(pk=boleta)
+                    if nombre == alumno.nombre and carrera == alumno.carrera:
+                        self.insertarActividad(alumno, duracion, tipo)
+                    else:
+                        raise ValueError()
+                except Alumno.DoesNotExist:
+                    alumno = Alumno(
+                        boleta=boleta, 
+                        nombre=nombre, 
+                        carrera=carrera,
+                    )
+                    alumno.save()
+                    time.sleep(1)
                     self.insertarActividad(alumno, duracion, tipo)
-                else:
-                    raise Exception()
-            except Alumno.DoesNotExist:
-                alumno = Alumno(
-                    boleta=boleta, 
-                    nombre=nombre, 
-                    carrera=carrera,
-                )
-                alumno.save()
-                time.sleep(1)
-                self.insertarActividad(alumno, duracion, tipo)
-            except Exception as e:
-                errores = True
-                messages.add_message(
-                    request, 
-                    messages.ERROR, 
-                    "La boleta {0} no corresponde con el alumno y/o carrera especificados.".format(boleta),
-                    "%(i)s"
-                )
+                except ValueError:
+                    errores = True
+                    messages.add_message(
+                        request, 
+                        messages.ERROR, 
+                        "La boleta {0} no corresponde con el alumno y/o carrera especificados.".format(boleta),
+                        "%(i)s"
+                    )
+            except KeyError:
+                pass
         if errores == False:
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.success_url)
         else:
             return HttpResponseRedirect(self.error_url)
+
+class CorregirActividadView(LoginRequiredMixin, TemplateView):
+    template_name = 'actividades/actividad_registrar.html'
+    success_url = reverse_lazy('home')
 
 class Test(FormView):
     template_name = 'users/user_form.html'

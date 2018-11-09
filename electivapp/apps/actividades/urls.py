@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import TiposActividadListView, TiposActividadFormView, TiposActividadUpdateView, TiposActividadDeleteView, RegistrarActividadView
+from .views import TiposActividadListView, TiposActividadFormView, TiposActividadUpdateView, TiposActividadDeleteView, RegistrarActividadView, CorregirActividadView
 
 app_name = "actividades"
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path("tipos/modificar/<str:pk>", view=TiposActividadUpdateView.as_view(), name="modificar_tipo"),
     path("tipos/eliminar/<str:pk>", view=TiposActividadDeleteView.as_view(), name="eliminar_tipo"),
     path("registrar", view=RegistrarActividadView.as_view(), name="registrar"),
+    path("registrar/error", view=CorregirActividadView.as_view(), name="corregir"),
 ]
