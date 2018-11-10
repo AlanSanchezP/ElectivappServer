@@ -1,4 +1,5 @@
 from django.db import models
+from encrypted_model_fields.fields import EncryptedCharField
 
 CARRERAS = (
     ('AI', 'Administración Industrial'),
@@ -34,7 +35,7 @@ class Responsable(models.Model):
         on_delete=models.CASCADE,
     )
 
-    password = models.CharField(
+    password = EncryptedCharField(
         max_length=20,
     )
 

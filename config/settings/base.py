@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'encrypted_model_fields',
 ]
 LOCAL_APPS = [
     'electivapp.apps.users',
@@ -250,3 +251,4 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
