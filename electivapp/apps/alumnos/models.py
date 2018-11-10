@@ -28,6 +28,9 @@ class Alumno(models.Model):
         default=False,
     )
 
+    def __str__(self):
+        return self.nombre
+
 class Responsable(models.Model):
     alumno = models.OneToOneField(
         Alumno,
@@ -37,3 +40,6 @@ class Responsable(models.Model):
     password = models.CharField(
         max_length=20,
     )
+
+    def __str__(self):
+        return self.alumno.nombre
