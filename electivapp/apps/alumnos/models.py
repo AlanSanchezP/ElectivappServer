@@ -10,10 +10,7 @@ CARRERAS = (
 
 # Create your models here.
 class Alumno(models.Model):
-    boleta = models.PositiveIntegerField(
-        auto_created=False,
-        primary_key=False,
-    )
+    boleta = models.PositiveIntegerField()
 
     nombre = models.CharField(
         max_length=150,
