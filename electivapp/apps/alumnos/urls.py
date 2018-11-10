@@ -1,6 +1,6 @@
 from django.urls import path
 
-from electivapp.apps.alumnos.views import AlumnosListView, ResponsablesListView, ResponsableFormView, ResponsableUpdateView, ResponsableDeleteView
+from electivapp.apps.alumnos.views import AlumnosListView, ResponsablesListView, ResponsableFormView, ResponsableUpdateView, ResponsableDeleteView, ResponsablePasswordView
 
 app_name = "alumnos"
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path("responsables/crear", view=ResponsableFormView.as_view(), name="nuevo_responsable"),
     path("responsables/modificar/<str:pk>", view=ResponsableUpdateView.as_view(), name="modificar_responsable"),
     path("responsables/eliminar/<str:pk>", view=ResponsableDeleteView.as_view(), name="eliminar_responsable"),
+    path("responsables/cambiarpassword/<str:pk>", view=ResponsablePasswordView.as_view(), name="password_responsable"),
 ]

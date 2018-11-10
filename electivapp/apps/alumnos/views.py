@@ -1,11 +1,12 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
+from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Alumno, Responsable
 from .forms import ResponsableForm, ResponsableUpdateForm
+import electivapp.apps.alumnos.utils as _utils
 
 # Create your views here.
 class AlumnosListView(LoginRequiredMixin, TemplateView):
@@ -58,3 +59,11 @@ class ResponsableDeleteView(LoginRequiredMixin, DeleteView):
     model = Responsable
     context_object_name = 'responsable'
     success_url = reverse_lazy('alumnos:lista_responsables')
+
+class ResponsablePasswordView(LoginRequiredMixin, View):
+    def get(self, request, **kwargs):
+        responsable = Responsable.objects.get(id = kwargs["pk"])
+        password = _utils.generarPassword()
+        responsable.password = password
+        responsable.save()
+        return HttpResponse(password)

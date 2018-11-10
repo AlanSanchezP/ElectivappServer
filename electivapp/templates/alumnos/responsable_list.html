@@ -16,9 +16,9 @@
             <h4 class="list-group-item-heading">{{ responsable.alumno.nombre }}</h4>
             <h4 class="list-group-item-heading">{{ responsable.alumno.boleta }}</h4>
             <h4 class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }}</h4>
-            <a href="{% url 'alumnos:modificar_responsable' pk=responsable.id %}" class="btn btn-warning">
+            <button type="button" data-url="{% url 'alumnos:password_responsable' pk=responsable.id %}" class="btn btn-warning btnChangePass">
                 Nueva contraseña
-            </a>
+            </button>
             <a href="{% url 'alumnos:modificar_responsable' pk=responsable.id %}" class="btn btn-primary">
                 Modificar
             </a>
