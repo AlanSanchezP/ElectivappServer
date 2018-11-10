@@ -78,7 +78,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'encrypted_model_fields',
-    'Weasyprint'
+    'weasyprint'
 ]
 LOCAL_APPS = [
     'electivapp.apps.users',

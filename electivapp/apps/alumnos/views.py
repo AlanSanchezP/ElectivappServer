@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
+from weasyprint import HTML
 
 from .models import Alumno, Responsable
 from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
@@ -61,15 +62,15 @@ class AlumnoListaView(LoginRequiredMixin, View):
     html_template = get_template('alumnos/alumnos_list.html')
     alumnos = Alumno.objects.filter(estatus=True)
 
-
     def get(self, request, **kwargs):
         fecha = datetime.datetime.now()
 
         rendered_html = self.html_template.render(
             {"alumnos": self.alumnos, "fecha": fecha}
         ).encode(encoding="UTF-8")
+        pdf_file = HTML(string=rendered_html).write_pdf()
 
-        response = HttpResponse(content_type="application/pdf")
+        response = HttpResponse(pdf_file, content_type="application/pdf")
         response['Content-Disposition'] = 'filename="lista.pdf"'
 
         return response
