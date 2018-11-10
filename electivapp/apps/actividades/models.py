@@ -38,3 +38,7 @@ class Actividad(models.Model):
     )
 
     fecha = models.DateField()
+
+    def valor(self):
+        valorPorHora = 1 / self.tipo.horasRequeridas
+        return round(valorPorHora * float(self.duracion), 2)

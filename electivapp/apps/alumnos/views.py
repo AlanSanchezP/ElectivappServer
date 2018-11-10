@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Alumno, Responsable
 from .forms import ResponsableForm, ResponsableUpdateForm
 import electivapp.apps.alumnos.utils as _utils
+from electivapp.apps.actividades.models import Actividad
 
 # Create your views here.
 class AlumnosSearchView(LoginRequiredMixin, TemplateView):
@@ -17,11 +18,13 @@ class AlumnosSearchView(LoginRequiredMixin, TemplateView):
         boleta = request.POST.get('boleta')
         try:
             alumno = Alumno.objects.get(boleta=boleta)
-
             return render(
                 request, 
                 'alumnos/alumno_search.html', 
-                context={"alumno": alumno, "boleta": boleta},
+                context={
+                    "alumno": alumno, 
+                    "boleta": boleta,
+                },
             )
         except Alumno.DoesNotExist:
             messages.add_message(

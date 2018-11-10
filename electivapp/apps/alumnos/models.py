@@ -26,6 +26,12 @@ class Alumno(models.Model):
         default=False,
     )
 
+    def creditos(self):
+        creditos = 0.0
+        for actividad in self.actividad_set.all():
+            creditos += actividad.valor()
+        return creditos
+
     def __str__(self):
         return self.nombre
 

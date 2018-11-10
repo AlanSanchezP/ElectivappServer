@@ -16,9 +16,12 @@
     {% if alumno %}
     <div class="container">
         <div class="list-group-item">
-            <h4 class="list-group-item-heading">{{ alumno.nombre }}</h4>
-            <h4 class="list-group-item-heading">{{ alumno.carrera }}</h4>
-            <h4 class="list-group-item-heading">{{ alumno.boleta }} </h4>
+            {% for actividad in alumno.actividad_set.all %}
+            <h4 class="list-group-item-heading">{{ actividad.id }}</h4>
+            <h4 class="list-group-item-heading">{{ actividad.duracion }}</h4>
+            <h4 class="list-group-item-heading">{{ actividad.tipo.nombre }} </h4>
+            {% endfor %}
+            {{ alumno.creditos }}
         </div>
     </div>
     {% endif %}
