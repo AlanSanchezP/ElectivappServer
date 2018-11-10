@@ -16,7 +16,7 @@
             <h4 class="list-group-item-heading">{{ evento.nombre }}</h4>
             <h4 class="list-group-item-heading">{{ evento.fecha }}</h4>
             <h4 class="list-group-item-heading">{{ evento.validado }}</h4>
-            <a href="{% url 'actividades:modificar_tipo' pk=evento.id %}" class="btn btn-primary">
+            <a href="{% url 'eventos:modificar' pk=evento.id %}" class="btn btn-primary">
                 Modificar
             </a>
             <button type="button" data-href="{% url 'actividades:eliminar_tipo' pk=evento.id %}" class="btn btn-danger delete-button">

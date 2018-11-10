@@ -21,15 +21,15 @@ class EventoFormView(LoginRequiredMixin, FormView):
         form.save()
         return HttpResponseRedirect(self.get_success_url())
 
-# class EventoUpdateView(LoginRequiredMixin, UpdateView):
-#     template_name = 'actividades/tipoactividad_update.html'
-#     form_class = TipoActividadForm
-#     model = EventoAuditorio
-#     success_url = reverse_lazy('eventos:home')
+class EventoUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'eventos/evento_update.html'
+    form_class = EventoForm
+    model = EventoAuditorio
+    success_url = reverse_lazy('eventos:home')
 
-#     def form_valid(self, form):
-#         form.save()
-#         return HttpResponseRedirect(self.get_success_url())
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 class EventoDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'actividades/tipoactividad_confirm_delete.html'
