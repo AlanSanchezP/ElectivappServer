@@ -14,8 +14,8 @@
         {% for evento in eventos %}
         <div class="list-group-item">
             <h4 class="list-group-item-heading">{{ evento.nombre }}</h4>
-            <h4 class="list-group-item-heading">{{ evento.get_categoria_display }}</h4>
-            <h4 class="list-group-item-heading">{{ evento.valorHoras }} créditos por hora</h4>
+            <h4 class="list-group-item-heading">{{ evento.fecha }}</h4>
+            <h4 class="list-group-item-heading">{{ evento.validado }}</h4>
             <a href="{% url 'actividades:modificar_tipo' pk=evento.id %}" class="btn btn-primary">
                 Modificar
             </a>
