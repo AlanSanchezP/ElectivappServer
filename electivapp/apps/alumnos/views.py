@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 from .models import Alumno, Responsable
 from .forms import ResponsableForm, ResponsableUpdateForm

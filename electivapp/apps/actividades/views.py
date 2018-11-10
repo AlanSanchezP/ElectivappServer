@@ -4,8 +4,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 from electivapp.apps.alumnos.models import Alumno, CARRERAS
 from .models import TipoActividad, Actividad, CATEGORIAS
