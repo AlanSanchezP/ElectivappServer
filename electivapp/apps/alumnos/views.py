@@ -6,21 +6,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Alumno, Responsable
-from .forms import ResponsableForm, ResponsableUpdateForm
+from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
 import electivapp.apps.alumnos.utils as _utils
 from electivapp.apps.actividades.models import Actividad
 
 # Create your views here.
-class AlumnosSearchView(LoginRequiredMixin, TemplateView):
+class AlumnosSearchView(LoginRequiredMixin, View):
     template_name = 'alumnos/alumno_search.html'
 
     def post(self, request, **kwargs):
+        print(request.POST)
         boleta = request.POST.get('boleta')
         try:
             alumno = Alumno.objects.get(boleta=boleta)
             return render(
                 request, 
-                'alumnos/alumno_search.html', 
+                self.template_name, 
                 context={
                     "alumno": alumno, 
                     "boleta": boleta,
@@ -34,9 +35,28 @@ class AlumnosSearchView(LoginRequiredMixin, TemplateView):
             )
             return render(
                 request, 
-                'alumnos/alumno_search.html', 
+                self.template_name, 
                 context={"boleta": boleta},
             )
+
+    def get(self, request, **kwargs):
+        if "pk" in kwargs:
+            mutable = request.POST._mutable
+            request.POST._mutable = True
+            request.POST["boleta"] = kwargs["pk"]
+            request.POST._mutable = mutable
+            return self.post(request)
+        else:
+            return render(
+                request, 
+                self.template_name
+            )
+
+class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'alumnos/responsable_update.html'
+    form_class = AlumnoForm
+    model = Alumno
+    success_url = reverse_lazy('alumnos:consulta')
 
 class ResponsablesListView(LoginRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'
