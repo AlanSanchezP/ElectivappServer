@@ -7,5 +7,5 @@ class TipoActividadForm(forms.ModelForm):
         model = TipoActividad
         exclude = ['']
         labels = {
-            'valorHoras': _('Value per hour'),
+            'horasRequeridas': _('Required hours for 1 credit'),
         }

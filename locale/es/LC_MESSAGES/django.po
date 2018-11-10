@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 05:30+0000\n"
+"POT-Creation-Date: 2018-11-10 02:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,8 @@ msgid "Spanish"
 msgstr ""
 
 #: electivapp/apps/actividades/forms.py:10
-msgid "Value per hour"
-msgstr "Valor por hora"
+msgid "Required hours for 1 credit"
+msgstr "Horas necesarias para 1 crédito"
 
 #: electivapp/apps/users/forms.py:17
 msgid "This username has already been taken."
@@ -266,3 +266,6 @@ msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
+
+#~ msgid "Value per hour"
+#~ msgstr "Valor por hora"

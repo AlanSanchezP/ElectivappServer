@@ -19,10 +19,7 @@ class TipoActividad(models.Model):
         choices=CATEGORIAS,
     )
 
-    valorHoras = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-    )
+    horasRequeridas = models.PositiveIntegerField()
 
 class Actividad(models.Model):
     duracion = models.DecimalField(
