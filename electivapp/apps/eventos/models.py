@@ -12,4 +12,6 @@ class EventoAuditorio(models.Model):
         Responsable
     )
 
-    validado = models.BooleanField()
+    validado = models.BooleanField(
+        default=False
+    )
