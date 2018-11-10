@@ -19,7 +19,7 @@
             <h4>{{ alumno.nombre }}</h4>
             <h4>{{ alumno.get_carrera_display }}</h4>
             <h4>{{ alumno.boleta }}</h4>
-            <a class="btn btn-primary" href="#">Corregir datos</a>
+            <a class="btn btn-primary" href="{% url 'alumnos:corregir' pk=alumno.id %}">Corregir datos</a>
         </div>
         <h4>Total de creditos: {{ alumno.creditos }}</h4>
         {% if alumno.actividad_set.all|length %}

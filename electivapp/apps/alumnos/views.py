@@ -53,10 +53,15 @@ class AlumnosSearchView(LoginRequiredMixin, View):
             )
 
 class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'alumnos/responsable_update.html'
+    template_name = 'alumnos/alumno_update.html'
     form_class = AlumnoForm
     model = Alumno
-    success_url = reverse_lazy('alumnos:consulta')
+
+    def form_valid(self, form):
+        boleta = form.save().boleta
+        return HttpResponseRedirect(
+            reverse_lazy('alumnos:consulta_boleta', kwargs={"pk": boleta})
+        )
 
 class ResponsablesListView(LoginRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'
