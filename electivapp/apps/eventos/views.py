@@ -13,7 +13,7 @@ class EventosListView(LoginRequiredMixin, ListView):
     context_object_name = 'eventos'
 
 class EventoFormView(LoginRequiredMixin, FormView):
-    template_name = 'actividades/tipoactividad_form.html'
+    template_name = 'eventos/evento_form.html'
     form_class = EventoForm
     success_url = reverse_lazy('eventos:home')
 
