@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -23,7 +24,12 @@ class ResponsableFormView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('alumnos:lista_responsables')
 
     def form_valid(self, form):
-        form.save()
+        passw = form.save()
+        messages.add_message(
+            self.request, 
+            messages.INFO, 
+            "La contraseña del responsable es {0}".format(passw),
+        )
         return HttpResponseRedirect(self.get_success_url())
 
 class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
