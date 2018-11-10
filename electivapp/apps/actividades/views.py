@@ -125,7 +125,3 @@ class CorregirActividadView(LoginRequiredMixin, TemplateView):
         context['carreras'] = CARRERAS
         context['categorias'] = TIPOS
         return context
-
-class Test(FormView):
-    template_name = 'users/user_form.html'
-    form_class = TipoActividadForm

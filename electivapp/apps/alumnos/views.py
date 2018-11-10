@@ -9,10 +9,8 @@ from .forms import ResponsableForm, ResponsableUpdateForm
 import electivapp.apps.alumnos.utils as _utils
 
 # Create your views here.
-class AlumnosListView(LoginRequiredMixin, TemplateView):
-    template_name = 'alumnos/alumno_list.html'
-    # model = Alumno
-    # context_object_name = 'alumno'
+class AlumnosSearchView(LoginRequiredMixin, TemplateView):
+    template_name = 'alumnos/alumno_search.html'
 
 class ResponsablesListView(LoginRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'

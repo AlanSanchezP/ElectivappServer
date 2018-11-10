@@ -1,10 +1,10 @@
 from django.urls import path
 
-from electivapp.apps.alumnos.views import AlumnosListView, ResponsablesListView, ResponsableFormView, ResponsableUpdateView, ResponsableDeleteView, ResponsablePasswordView
+from electivapp.apps.alumnos.views import AlumnosSearchView, ResponsablesListView, ResponsableFormView, ResponsableUpdateView, ResponsableDeleteView, ResponsablePasswordView
 
 app_name = "alumnos"
 urlpatterns = [
-    path("consulta", view=AlumnosListView.as_view(), name="lista"),
+    path("consulta", view=AlumnosSearchView.as_view(), name="consulta"),
     path("responsables", view=ResponsablesListView.as_view(), name="lista_responsables"),
     path("responsables/crear", view=ResponsableFormView.as_view(), name="nuevo_responsable"),
     path("responsables/modificar/<str:pk>", view=ResponsableUpdateView.as_view(), name="modificar_responsable"),
