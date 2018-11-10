@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.shortcuts import render 
 from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +12,28 @@ import electivapp.apps.alumnos.utils as _utils
 # Create your views here.
 class AlumnosSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'alumnos/alumno_search.html'
+
+    def post(self, request, **kwargs):
+        boleta = request.POST.get('boleta')
+        try:
+            alumno = Alumno.objects.get(pk=boleta)
+
+            return render(
+                request, 
+                'alumnos/alumno_search.html', 
+                context={"alumno": alumno, "boleta": boleta},
+            )
+        except Alumno.DoesNotExist:
+            messages.add_message(
+                request, 
+                messages.INFO, 
+                "No se encontro un alumno con la boleta {0}".format(boleta),
+            )
+            return render(
+                request, 
+                'alumnos/alumno_search.html', 
+                context={"boleta": boleta},
+            )
 
 class ResponsablesListView(LoginRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'
