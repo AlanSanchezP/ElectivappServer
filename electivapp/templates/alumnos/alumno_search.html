@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}Consultar alumno{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>
+        <h2 class="col-md-6 text-center mx-auto">Consultar alumno</h2>
+    </div>
+    {% if alumno %}
+    <div class="container">
+        <div class="list-group-item">
+            <h4 class="list-group-item-heading">{{ alumno.nombre }}</h4>
+            <h4 class="list-group-item-heading">{{ alumno.carrera }}</h4>
+            <h4 class="list-group-item-heading">{{ alumno.boleta }} </h4>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
