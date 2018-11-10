@@ -61,7 +61,7 @@ class ResponsableDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('alumnos:lista_responsables')
 
 class ResponsablePasswordView(LoginRequiredMixin, View):
-    def get(self, request, **kwargs):
+    def post(self, request, **kwargs):
         responsable = Responsable.objects.get(id = kwargs["pk"])
         password = _utils.generarPassword()
         responsable.password = password
