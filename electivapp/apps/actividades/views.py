@@ -83,7 +83,7 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
                 tipo = params["tipo_{0}".format(i)]
 
                 try:
-                    alumno = Alumno.objects.get(pk=boleta)
+                    alumno = Alumno.objects.get(boleta=boleta)
                     if nombre == alumno.nombre and carrera == alumno.carrera:
                         self.insertarActividad(alumno, duracion, tipo)
                     else:
