@@ -52,7 +52,7 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarActividadView, self).get_context_data(**kwargs)
-        tipos = TipoActividad.objects.all()
+        tipos = TipoActividad.objects.all().exclude(id=1)
         TIPOS = []
         for tipo in tipos:
             TIPOS.append((tipo.id,tipo.nombre))
@@ -118,7 +118,7 @@ class CorregirActividadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(CorregirActividadView, self).get_context_data(**kwargs)
-        tipos = TipoActividad.objects.all()
+        tipos = TipoActividad.objects.all().exclude(id=1)
         TIPOS = []
         for tipo in tipos:
             TIPOS.append((tipo.id,tipo.nombre))
