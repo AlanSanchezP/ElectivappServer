@@ -1,6 +1,8 @@
+import datetime
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.shortcuts import render 
+from django.shortcuts import render
+from django.template.loader import get_template
 from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -54,6 +56,23 @@ class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(
             reverse_lazy('alumnos:consulta_boleta', kwargs={"pk": boleta})
         )
+
+class AlumnoListaView(LoginRequiredMixin, View):
+    html_template = get_template('alumnos/alumnos_list.html')
+    alumnos = Alumno.objects.filter(estatus=True)
+
+
+    def get(self, request, **kwargs):
+        fecha = datetime.datetime.now()
+
+        rendered_html = self.html_template.render(
+            {"alumnos": self.alumnos, "fecha": fecha}
+        ).encode(encoding="UTF-8")
+
+        response = HttpResponse(content_type="application/pdf")
+        response['Content-Disposition'] = 'filename="lista.pdf"'
+
+        return response
 
 class ResponsablesListView(LoginRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'
