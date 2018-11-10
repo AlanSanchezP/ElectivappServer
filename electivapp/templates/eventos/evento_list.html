@@ -19,7 +19,7 @@
             <a href="{% url 'eventos:modificar' pk=evento.id %}" class="btn btn-primary">
                 Modificar
             </a>
-            <button type="button" data-href="{% url 'actividades:eliminar_tipo' pk=evento.id %}" class="btn btn-danger delete-button">
+            <button type="button" data-href="{% url 'eventos:eliminar' pk=evento.id %}" class="btn btn-danger delete-button">
                 Eliminar
             </button>
         </div>

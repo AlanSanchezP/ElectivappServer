@@ -32,7 +32,7 @@ class EventoUpdateView(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 class EventoDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = 'actividades/tipoactividad_confirm_delete.html'
+    template_name = 'eventos/evento_confirm_delete.html'
     model = EventoAuditorio
     context_object_name = 'evento'
     success_url = reverse_lazy('eventos:home')
