@@ -16,7 +16,7 @@ class AlumnosSearchView(LoginRequiredMixin, TemplateView):
     def post(self, request, **kwargs):
         boleta = request.POST.get('boleta')
         try:
-            alumno = Alumno.objects.get(pk=boleta)
+            alumno = Alumno.objects.get(boleta=boleta)
 
             return render(
                 request, 
