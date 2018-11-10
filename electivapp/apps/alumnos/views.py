@@ -14,38 +14,30 @@ from electivapp.apps.actividades.models import Actividad
 class AlumnosSearchView(LoginRequiredMixin, View):
     template_name = 'alumnos/alumno_search.html'
 
-    def post(self, request, **kwargs):
-        print(request.POST)
-        boleta = request.POST.get('boleta')
-        try:
-            alumno = Alumno.objects.get(boleta=boleta)
-            return render(
-                request, 
-                self.template_name, 
-                context={
-                    "alumno": alumno, 
-                    "boleta": boleta,
-                },
-            )
-        except Alumno.DoesNotExist:
-            messages.add_message(
-                request, 
-                messages.INFO, 
-                "No se encontro un alumno con la boleta {0}".format(boleta),
-            )
-            return render(
-                request, 
-                self.template_name, 
-                context={"boleta": boleta},
-            )
-
     def get(self, request, **kwargs):
-        if "pk" in kwargs:
-            mutable = request.POST._mutable
-            request.POST._mutable = True
-            request.POST["boleta"] = kwargs["pk"]
-            request.POST._mutable = mutable
-            return self.post(request)
+        if request.GET.get("boleta"):
+            boleta = request.GET.get("boleta")
+            try:
+                alumno = Alumno.objects.get(boleta=boleta)
+                return render(
+                    request, 
+                    self.template_name, 
+                    context={
+                        "alumno": alumno, 
+                        "boleta": boleta,
+                    },
+                )
+            except Alumno.DoesNotExist:
+                messages.add_message(
+                    request, 
+                    messages.INFO, 
+                    "No se encontro un alumno con la boleta {0}".format(boleta),
+                )
+                return render(
+                    request, 
+                    self.template_name, 
+                    context={"boleta": boleta},
+                )
         else:
             return render(
                 request, 

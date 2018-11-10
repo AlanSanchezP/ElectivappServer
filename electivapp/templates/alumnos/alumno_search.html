@@ -8,8 +8,7 @@
         <a href="{% url 'home' %}" class="btn btn-primary">Volver</a>
         <h2 class="col-md-6 text-center mx-auto">Consultar alumno</h2>
     </div>
-    <form method="POST" class="row">
-      {% csrf_token %}
+    <form method="GET" class="row">
       <input placeholder="Boleta" name="boleta" required type="number" min="0" max="9999999999" class="form-control col-md-8" {% if boleta %}value="{{boleta}}"{% endif %}>
       <button class="btn btn-primary col-md-4">Buscar</button>
     </form>

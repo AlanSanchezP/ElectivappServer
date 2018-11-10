@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <a href="{% url 'alumnos:consulta_boleta' pk=alumno.boleta %}" class="btn btn-primary">Volver</a>
+        <a href="{% url 'alumnos:consulta' %}?boleta={{alumno.boleta}}" class="btn btn-primary">Volver</a>
         <h1 class="col-md-6 text-center mx-auto">Corregir datos de alumno</h2>
     </div>
 </div>
