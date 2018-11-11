@@ -61,13 +61,24 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
         return context
 
     def insertarActividad(self, alumno, duracion, tipo):
+        creditos = alumno.creditos()
+        print(creditosPrevios)
         actividad = Actividad(
             alumno=alumno,
             duracion=duracion,
             fecha=datetime.today(),
             tipo=TipoActividad.objects.get(id=tipo),
         )
+        creditos += actividad.valor()
         actividad.save()
+        
+        if alumno.carrera == 'IN' and creditos >= 14:
+            alumno.terminado = True
+        elif alumno.carrera == 'AI' and creditos >= 18:
+            alumno.terminado = True
+        elif creditos >= 20:
+            alumno.terminado = True
+        alumno.save()
 
     def post(self, request, *args, **kwargs):
         params = request.POST.dict()

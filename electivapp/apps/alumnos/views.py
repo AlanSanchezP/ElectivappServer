@@ -60,13 +60,13 @@ class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
 
 class AlumnoListaView(LoginRequiredMixin, View):
     html_template = get_template('alumnos/alumnos_list.html')
-    alumnos = Alumno.objects.filter(estatus=True)
 
     def get(self, request, **kwargs):
         fecha = datetime.datetime.now()
+        alumnos = Alumno.objects.filter(terminado=True).filter(estatus=False)
 
         rendered_html = self.html_template.render(
-            {"alumnos": self.alumnos, "fecha": fecha}
+            {"alumnos": alumnos, "fecha": fecha}
         ).encode(encoding="UTF-8")
         pdf_file = HTML(string=rendered_html).write_pdf()
 

@@ -26,6 +26,10 @@ class Alumno(models.Model):
         default=False,
     )
 
+    terminado = models.BooleanField(
+        default=False,
+    )
+
     def __str__(self):
         return self.nombre
 
