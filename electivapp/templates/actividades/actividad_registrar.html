@@ -6,7 +6,10 @@
 {% csrf_token %}
     <div class="container">
         <div class="row">
-            <a href="{% url 'actividades:home' %}" class="btn btn-primary">Volver</a>
+            <a href="{% url 'actividades:home' %}" class="btn btn-secondary">
+                <i class="fas fa-chevron-left"></i>
+                Volver
+            </a>
             <h1 class="col-md-6 text-center mx-auto">Registrar actividad</h2>
             <button class="btn btn-success">Guardar</button>
         </div>

@@ -43,7 +43,10 @@
         <a class="navbar-brand" href="{% url 'home' %}">Electivapp</a>
 
         {# URL provided by django-allauth/account/urls.py #}
-        <a class="btn btn-danger" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+        <a class="btn btn-danger" href="{% url 'account_logout' %}">
+          <i class="fas fa-sign-out-alt"></i>
+          {% trans "Sign Out" %}
+        </a>
       </nav>
 
     </div>
