@@ -53,20 +53,22 @@
                 </div>
                 
             </div>
-            <table class="table actividades text-center">
-                <tr>
-                    <th>Tipo de registro</th>
-                    <th>Créditos</th>
-                    <th>Fecha</th>
-                </tr>
-                {% for actividad in alumno.actividad_set.all %}
-                <tr>
-                    <td class="list-group-item-heading">{{ actividad.tipo.nombre }}</td>
-                    <td class="list-group-item-heading">{{ actividad.valor }}</td>
-                    <td class="list-group-item-heading">{{ actividad.fecha }} </td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div id="actividades" class="collapse">
+                <table class="table text-center">
+                    <tr style="color: white">
+                        <th style="background: #b74273; border-radius: 10px 0 0 0; border-top: none">Tipo de registro</th>
+                        <th style="background: #b74273; border-top: none">Créditos</th>
+                        <th style="background: #b74273; border-radius: 0 10px 0 0; border-top: none">Fecha</th>
+                    </tr>
+                    {% for actividad in alumno.actividad_set.all %}
+                    <tr>
+                        <td class="list-group-item-heading">{{ actividad.tipo.nombre }}</td>
+                        <td class="list-group-item-heading">{{ actividad.valor }}</td>
+                        <td class="list-group-item-heading">{{ actividad.fecha }} </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
             {% else %}
             <div class="text-center" style="margin-top: 2em; font-size: 20px">
                 Total de creditos: <br>
@@ -78,3 +80,22 @@
     {% endif %}
 </div>
 {% endblock content %}
+
+{% block customjs %}
+<script>
+    $('#btnDesglose').click(function() {
+        if ($('#actividades').hasClass('show')) {
+            $('#btnDesglose i')
+                .removeClass('fa-times-circle')
+                .addClass('fa-plus-circle');
+            $('#btnDesglose span').text('Ver desglose');
+        } else {
+            $('#btnDesglose i')
+                .removeClass('fa-plus-circle')
+                .addClass('fa-times-circle');
+            $('#btnDesglose span').text('Ocultar desglose');
+        }
+        $('#actividades').collapse('toggle');
+    });
+</script>
+{% endblock %}
