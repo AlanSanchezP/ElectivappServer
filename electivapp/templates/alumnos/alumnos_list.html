@@ -1,0 +1,23 @@
+<style>
+    *{
+        font-family: 'Open Sans';
+    }
+</style>
+
+<h1 style="text-align:center">Lista de alumnos</h1>
+<h5>Fecha: {{ fecha }}</h5>
+
+<table style="width: 100%">
+    <tr style="text-align: center; background: #77455a; color: white">
+        <th>Boleta</th>
+        <th>Nombre</th>
+        <th>Carrera</th>
+    </tr>
+    {% for alumno in alumnos %}
+    <tr>
+        <td>{{ alumno.boleta }}</td>
+        <td>{{ alumno.nombre }}</td>
+        <td>{{ alumno.get_carrera_display }}</td>
+    </tr>
+    {% endfor %}
+</table>
