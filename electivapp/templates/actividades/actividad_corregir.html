@@ -11,51 +11,49 @@
               Volver
             </a>
             <h1 class="col-md-6 text-center mx-auto">Corrección de errores</h2>
-            <button class="btn btn-success">Guardar</button>
+            <button class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
         </div>
     </div>
     <input id="cantidad" type="hidden" name="cantidad" value="{{messages|length}}">
-    <div id="entries">
+    <div id="entries" class="elementos-lista">
         {% for message in messages %}
         {% with message.tags.split as tags %}
-        <div class="container card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="nombre_{{forloop.counter}}">Nombre del alumno*</label>
-                        <input id="nombre_{{forloop.counter}}" name="nombre_{{forloop.counter}}" type="text" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="boleta_{{forloop.counter}}">Boleta*</label>
-                        <input id="boleta_{{forloop.counter}}" name="boleta_{{forloop.counter}}" type="number" min="0" max="9999999999" class="form-control" required value="{{tags.0}}">
-                    </div>
+        <div class="elemento-lista">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="nombre_{{forloop.counter}}">Nombre del alumno*</label>
+                    <input id="nombre_{{forloop.counter}}" name="nombre_{{forloop.counter}}" type="text" class="form-control" required>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="carrera_{{forloop.counter}}">Carrera*</label>
-                        <select id="carrera_{{forloop.counter}}" name="carrera_{{forloop.counter}}" class="form-control" required>
-                            {% for value, text in carreras %}
-                            <option value="{{value}}" {% if value == tags.1 %}selected{% endif %}>{{text}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="tipo_{{forloop.counter}}">Tipo de actividad*</label>
-                        <select id="tipo_{{forloop.counter}}" name="tipo_{{forloop.counter}}" class="form-control" required>
-                            {% for value, text in categorias %}
-                            <option value="{{value}}" {% if value == tags.2 %}selected{% endif %}>{{text}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="duracion_{{forloop.counter}}">Duracion(horas)*</label>
-                        <input id="duracion_{{forloop.counter}}" name="duracion_{{forloop.counter}}" type="number" step="0.01" min="0" max="100" class="form-control" required value="{{tags.3}}">
-                    </div>
+                <div class="col-md-6">
+                    <label for="boleta_{{forloop.counter}}">Boleta*</label>
+                    <input id="boleta_{{forloop.counter}}" name="boleta_{{forloop.counter}}" type="number" min="0" max="9999999999" class="form-control" required value="{{tags.0}}">
                 </div>
-                {% if not forloop.first %}
-                <button data-id="{{forloop.counter}}" class="btnDelete btn btn-danger" type="button">Eliminar</button>
-                {% endif %}
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="carrera_{{forloop.counter}}">Carrera*</label>
+                    <select id="carrera_{{forloop.counter}}" name="carrera_{{forloop.counter}}" class="form-control" required>
+                        {% for value, text in carreras %}
+                        <option value="{{value}}" {% if value == tags.1 %}selected{% endif %}>{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="tipo_{{forloop.counter}}">Tipo de actividad*</label>
+                    <select id="tipo_{{forloop.counter}}" name="tipo_{{forloop.counter}}" class="form-control" required>
+                        {% for value, text in categorias %}
+                        <option value="{{value}}" {% if value == tags.2 %}selected{% endif %}>{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="duracion_{{forloop.counter}}">Duracion(horas)*</label>
+                    <input id="duracion_{{forloop.counter}}" name="duracion_{{forloop.counter}}" type="number" step="0.01" min="0" max="100" class="form-control" required value="{{tags.3}}">
+                </div>
+            </div>
+            {% if not forloop.first %}
+            <button data-id="{{forloop.counter}}" class="btnDelete btn btn-danger" type="button"><i class="fas fa-trash"></i> Eliminar</button>
+            {% endif %}
         </div>
         {% endwith %}
         {% endfor %}
@@ -67,7 +65,7 @@
 <script>
     $('.btnDelete').click(function(e) {
         var id = $(e.target).data('id');
-        var parent = $(e.target).closest('.card');
+        var parent = $(e.target).closest('.elemento-lista');
         parent.remove();
     });
 </script>
