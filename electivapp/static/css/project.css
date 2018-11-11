@@ -40,3 +40,23 @@ input[type="number"] {
     padding: 2em 1.4em;
     margin-top: 1.5em;
 }
+
+.formulario {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 2em;
+  border-radius: 6px;
+  background: #fafafa;
+  border: 1px solid #bbb;
+  padding: 2em;
+  text-align: center;
+}
+
+.formulario .form-group {
+  text-align: left;
+}
+
+.formulario [type="submit"] {
+  background: #28a745;
+  color: white;
+}
