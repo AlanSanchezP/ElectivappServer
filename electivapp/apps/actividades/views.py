@@ -62,7 +62,6 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
 
     def insertarActividad(self, alumno, duracion, tipo):
         creditos = alumno.creditos()
-        print(creditosPrevios)
         actividad = Actividad(
             alumno=alumno,
             duracion=duracion,
@@ -71,7 +70,7 @@ class RegistrarActividadView(LoginRequiredMixin, TemplateView):
         )
         creditos += actividad.valor()
         actividad.save()
-        
+
         if alumno.carrera == 'IN' and creditos >= 14:
             alumno.terminado = True
         elif alumno.carrera == 'AI' and creditos >= 18:
