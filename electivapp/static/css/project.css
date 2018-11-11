@@ -42,6 +42,10 @@ input[type="number"] {
     margin-top: 1.5em;
 }
 
+.elemento-lista .btnDelete {
+  margin-top: 20px;
+}
+
 .formulario {
   max-width: 500px;
   margin: 0 auto;

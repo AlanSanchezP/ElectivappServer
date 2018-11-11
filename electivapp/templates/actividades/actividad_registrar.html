@@ -11,20 +11,19 @@
                 Volver
             </a>
             <h1 class="col-md-6 text-center mx-auto">Registrar actividad</h2>
-            <button class="btn btn-success">Guardar</button>
+            <button class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
         </div>
     </div>
     <input id="cantidad" type="hidden" name="cantidad">
-    <div id="entries">
+    <div id="entries" class="elementos-lista" style="margin-bottom: 20px">
     </div>
-    <button id="btnAdd" type="button" class="btn btn-primary float-right">Agregar otro</button>
+    <button id="btnAdd" type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Agregar otro</button>
 </form>
 {% endblock %}
 
 {% block customjs %}
 <script id="entry-template" type="text/x-handlebars-template">
-    <div class="container card">
-        <div class="card-body">
+    <div class="container elemento-lista">
             <div class="row">
                 <div class="col-md-6">{% verbatim %}
                     <label for="nombre_{{id}}">Nombre del alumno*</label>
@@ -58,9 +57,8 @@
                 </div>
             </div>
             {% verbatim %}{{#if notFirst}}
-            <button data-id="{{id}}" class="btnDelete btn btn-danger" type="button">Eliminar</button>
+            <button data-id="{{id}}" class="btnDelete btn btn-danger" type="button"><i class="fas fa-trash"></i> Eliminar</button>
             {{/if}}{% endverbatim %}
-        </div>
     </div>
 </script>
 <script>
@@ -80,7 +78,7 @@
 
     $('#entries').on('click', '.btnDelete', function(e) {
         var id = $(e.target).data('id');
-        var parent = $(e.target).closest('.card');
+        var parent = $(e.target).closest('.elemento-lista');
         parent.remove();
     });
 
