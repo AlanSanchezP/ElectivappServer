@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
+    <div class="row" style="align-items: center">
         <a class="btn btn-secondary" href="{% url 'home' %}">
           <i class="fas fa-chevron-left"></i>
           Volver
@@ -13,18 +13,28 @@
         <a href="{% url 'eventos:crear' %}" class="btn btn-success">Nuevo</a>
     </div>
 
-    <div class="list-group">
+    <div class="elementos-lista">
         {% for evento in eventos %}
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">{{ evento.nombre }}</h4>
-            <h4 class="list-group-item-heading">{{ evento.fecha }}</h4>
-            <h4 class="list-group-item-heading">{{ evento.validado }}</h4>
+        <div class="row elemento-lista">
+          <div class="col-md-7">
+            <h3>{{ evento.nombre }}</h3>
+            {{ evento.fecha }}
+          </div>
+          <div class="col-md-5 text-right">
+            {% if evento.validado %}
+            <i style="color: #28a745; font-size: 1.5em; margin-right: 0.6em;" class="fas fa-check-circle"></i>
+            {% else %}
+            <i style="color: #dc3545; font-size: 1.5em; margin-right: 0.6em;" class="fas fa-times-circle"></i>
+            {% endif %}
             <a href="{% url 'eventos:modificar' pk=evento.id %}" class="btn btn-primary">
-                Modificar
+              <i class="fas fa-pen"></i>
+              Modificar
             </a>
             <button type="button" data-href="{% url 'eventos:eliminar' pk=evento.id %}" class="btn btn-danger delete-button">
-                Eliminar
+              <i class="fas fa-trash"></i>
+              Eliminar
             </button>
+          </div>
         </div>
         {% endfor %}
     </div>
