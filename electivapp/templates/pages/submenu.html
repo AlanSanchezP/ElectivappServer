@@ -5,8 +5,10 @@
     <i class="fas fa-chevron-left"></i>
     Volver
 </a>
-<div class="container">
-    <a class="btn btn-success" href="{% url 'actividades:lista_tipos' %}">Administrar tipos de actividades</a>
-    <a class="btn btn-success" href="{% url 'actividades:registrar' %}">Registrar créditos</a>
+<div class="container menu-grid">
+    <a class="btn btn-info btn-lg" href="{% url 'actividades:lista_tipos' %}">
+        <i style="font-size: 2em" class="fas fa-book"></i><br>Administrar tipos de actividades</a>
+    <a class="btn btn-info btn-lg" href="{% url 'actividades:registrar' %}">
+        <i style="font-size: 2em" class="fas fa-plus-circle"></i><br>Registrar créditos</a>
 </div>
 {% endblock content %}
