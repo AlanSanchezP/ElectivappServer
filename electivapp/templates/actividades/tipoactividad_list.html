@@ -13,18 +13,24 @@
         <a href="{% url 'actividades:nuevo_tipo' %}" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo</a>
     </div>
 
-    <div class="list-group">
+    <div class="elementos-lista">
         {% for tipo in tipos %}
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">{{ tipo.nombre }}</h4>
-            <h4 class="list-group-item-heading">{{ tipo.get_categoria_display }}</h4>
-            <h4 class="list-group-item-heading">{{ tipo.horasRequeridas }} horas por crédito</h4>
+        <div class="row elemento-lista">
+          <div class="col-md-7">
+            <h3 class="list-group-item-heading">{{ tipo.nombre }}</h3>
+            <span>{{ tipo.get_categoria_display }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&#183;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>1 crédito={{ tipo.horasRequeridas }} horas</span>
+          </div>
+          <div class="col-md-5 text-right">
             <a href="{% url 'actividades:modificar_tipo' pk=tipo.id %}" class="btn btn-primary">
+              <i class="fas fa-pen"></i>
                 Modificar
             </a>
             <button type="button" data-href="{% url 'actividades:eliminar_tipo' pk=tipo.id %}" class="btn btn-danger delete-button">
+              <i class="fas fa-trash"></i>
                 Eliminar
             </button>
+          </div>
         </div>
         {% endfor %}
     </div>
