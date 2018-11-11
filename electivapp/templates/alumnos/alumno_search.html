@@ -11,35 +11,69 @@
       </a>
         <h2 class="col-md-6 text-center mx-auto">Consultar alumno</h2>
     </div>
-    <form method="GET" class="row">
+    <form method="GET" class="row" style="max-width: 500px; margin: 1em auto 0 auto">
       <input placeholder="Boleta" name="boleta" required type="number" min="0" max="9999999999" class="form-control col-md-8" {% if boleta %}value="{{boleta}}"{% endif %}>
-      <button class="btn btn-primary col-md-4">Buscar</button>
+      <button class="btn btn-primary col-md-3 mx-auto"><i class="fas fa-search"></i> Buscar</button>
     </form>
     {% if alumno %}
     <div class="container">
-        <div class="list-group-item">
-            <h4>{{ alumno.nombre }}</h4>
-            <h4>{{ alumno.get_carrera_display }}</h4>
-            <h4>{{ alumno.boleta }}</h4>
-            <a class="btn btn-primary" href="{% url 'alumnos:corregir' pk=alumno.id %}">Corregir datos</a>
-        </div>
-        <h4>Total de creditos: {{ alumno.creditos }}</h4>
-        {% if alumno.actividad_set.all|length %}
-        <table class="table">
-            <tr>
-                <th>Tipo de registro</th>
-                <th>Créditos</th>
-                <th>Fecha</th>
-            </tr>
-            {% for actividad in alumno.actividad_set.all %}
-            <tr>
-                <td class="list-group-item-heading">{{ actividad.tipo.nombre }}</td>
-                <td class="list-group-item-heading">{{ actividad.valor }}</td>
-                <td class="list-group-item-heading">{{ actividad.fecha }} </td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
+        <div class="elemento-lista" style="margin-right: auto; margin-left: auto; max-width: 850px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        Nombre:
+                        <h4>{{ alumno.nombre }}</h4>
+                    </div>
+                    <div class="col-md-6">
+                        Boleta:
+                        <h4>{{ alumno.boleta }}</h4>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1em">
+                    <div class="col-md-6">
+                        Carrera:
+                        <h4>{{ alumno.get_carrera_display }}</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-warning" href="{% url 'alumnos:corregir' pk=alumno.id %}"><i class="fas fa-wrench"></i> Corregir datos</a>
+                    </div>
+                </div>
+            </div>
+            {% if alumno.actividad_set.all|length %}
+            <div class="row" style="margin: 2em auto; max-width: 500px;">
+                <div class="col-md-6 text-center" style="font-size: 20px">
+                    Total de creditos: <br>
+                    <b>{{ alumno.creditos }}</b>
+                </div>
+                <div class="col-md-6 text-center">
+                    <button id="btnDesglose" type="button" class="btn btn-primary">
+                        <i class="circle fas fa-plus-circle"></i><br>
+                        <span>Ver desglose</span>
+                    </button>
+                </div>
+                
+            </div>
+            <table class="table actividades text-center">
+                <tr>
+                    <th>Tipo de registro</th>
+                    <th>Créditos</th>
+                    <th>Fecha</th>
+                </tr>
+                {% for actividad in alumno.actividad_set.all %}
+                <tr>
+                    <td class="list-group-item-heading">{{ actividad.tipo.nombre }}</td>
+                    <td class="list-group-item-heading">{{ actividad.valor }}</td>
+                    <td class="list-group-item-heading">{{ actividad.fecha }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <div class="text-center" style="margin-top: 2em; font-size: 20px">
+                Total de creditos: <br>
+                <b>{{ alumno.creditos }}</b>
+            </div>
+            {% endif %}
+            </div>
     </div>
     {% endif %}
 </div>
