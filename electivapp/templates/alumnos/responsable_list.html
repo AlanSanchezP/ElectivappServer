@@ -13,21 +13,27 @@
         <a href="{% url 'alumnos:nuevo_responsable' %}" class="btn btn-success">Nuevo</a>
     </div>
 
-    <div class="list-group">
+    <div class="elementos-lista">
         {% for responsable in responsables %}
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">{{ responsable.alumno.nombre }}</h4>
-            <h4 class="list-group-item-heading">{{ responsable.alumno.boleta }}</h4>
-            <h4 class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }}</h4>
+        <div class="row elemento-lista">
+          <div class="col-md-7">
+            <h3 class="list-group-item-heading">{{ responsable.alumno.nombre }}</h3>
+            <span class="list-group-item-heading">{{ responsable.alumno.boleta }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&#183;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="list-group-item-heading">{{ responsable.alumno.get_carrera_display }}</span>
+          </div>
+          <div class="col-md-5 text-right">
             <button type="button" data-href="{% url 'alumnos:password_responsable' pk=responsable.id %}" data-csrf="{{ csrf_token }}" class="btn btn-warning btnChangePass">
                 Nueva contraseña
             </button>
             <a href="{% url 'alumnos:modificar_responsable' pk=responsable.id %}" class="btn btn-primary">
+              <i class="fas fa-pen"></i>
                 Modificar
             </a>
             <button type="button" data-href="{% url 'alumnos:eliminar_responsable' pk=responsable.id %}" class="btn btn-danger delete-button">
+              <i class="fas fa-trash"></i>
                 Eliminar
             </button>
+          </div>
         </div>
         {% endfor %}
     </div>
