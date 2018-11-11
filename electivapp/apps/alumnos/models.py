@@ -26,14 +26,14 @@ class Alumno(models.Model):
         default=False,
     )
 
+    def __str__(self):
+        return self.nombre
+
     def creditos(self):
         creditos = 0.0
         for actividad in self.actividad_set.all():
             creditos += actividad.valor()
         return creditos
-
-    def __str__(self):
-        return self.nombre
 
 class Responsable(models.Model):
     alumno = models.OneToOneField(
