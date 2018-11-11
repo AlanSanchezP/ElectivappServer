@@ -20,3 +20,15 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menu-grid a {
+    width: 25%;
+    margin:30px;
+    padding: 1em;
+}

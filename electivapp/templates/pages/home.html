@@ -1,9 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a class="btn btn-success" href="{% url 'eventos:home' %}">Administrar eventos</a>
-    <a class="btn btn-success" href="{% url 'alumnos:lista_responsables' %}">Administrar responsables</a>
-    <a class="btn btn-success" href="{% url 'alumnos:consulta' %}">Consultar alumnos</a>
-    <a class="btn btn-success" href="{% url 'actividades:home' %}">Otras actividades</a>
-    <a class="btn btn-success" href="#">Generar listas</a>
+<div class="menu-grid text-center" style="font-size: 50px">
+    <a class="btn btn-lg btn-info" href="{% url 'eventos:home' %}">
+        <i style="font-size: 2em" class="fas fa-qrcode"></i><br>
+        Administrar eventos
+    </a>
+    <a class="btn btn-lg btn-info" href="{% url 'alumnos:lista_responsables' %}">
+        <i style="font-size: 2em" class="fas fa-user-circle"></i><br>
+        Administrar responsables
+    </a>
+    <a class="btn btn-lg btn-info" href="{% url 'alumnos:consulta' %}">
+        <i style="font-size: 2em" class="fas fa-graduation-cap"></i><br>
+        Consultar alumnos
+    </a> <br>
+    <a class="btn btn-lg btn-info" href="{% url 'actividades:home' %}">
+        <i style="font-size: 2em" class="fas fa-rocket"></i><br>
+        Otras actividades
+    </a>
+    <a class="btn btn-lg btn-info" href="#">
+        <i style="font-size: 2em" class="fas fa-file-pdf"></i><br>
+        Generar listas
+    </a>
+</div>
 {% endblock content %}
