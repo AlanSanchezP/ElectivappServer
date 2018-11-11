@@ -72,6 +72,7 @@ class AlumnoListaView(LoginRequiredMixin, View):
 
         response = HttpResponse(pdf_file, content_type="application/pdf")
         response['Content-Disposition'] = 'filename="lista.pdf"'
+        alumnos.update(estatus=True)
 
         return response
 
