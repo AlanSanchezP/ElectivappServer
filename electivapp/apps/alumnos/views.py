@@ -6,10 +6,13 @@ from django.template.loader import get_template
 from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from weasyprint import HTML
 
+from .authentication import ResponsableAuthentication
 from .models import Alumno, Responsable, CARRERAS
 from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
 from electivapp.apps.actividades.models import Actividad
@@ -132,6 +135,8 @@ class ResponsablePasswordView(LoginRequiredMixin, View):
         return HttpResponse(password)
 
 @api_view(['GET'])
+@authentication_classes((ResponsableAuthentication, ))
+@permission_classes((IsAuthenticated,))
 def carreras_list(request):
     if request.method == 'GET':
         carreras = []

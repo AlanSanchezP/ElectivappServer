@@ -1,6 +1,5 @@
 from django.db import models
 from electivapp.apps.users.models import User
-from encrypted_model_fields.fields import EncryptedCharField
 
 CARRERAS = (
     ('AI', 'Administración Industrial'),

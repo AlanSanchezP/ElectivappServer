@@ -77,7 +77,6 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
-    'encrypted_model_fields',
     'weasyprint'
 ]
 LOCAL_APPS = [
@@ -250,6 +249,3 @@ ACCOUNT_ADAPTER = 'electivapp.apps.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'electivapp.apps.users.adapters.SocialAccountAdapter'
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
-# Your stuff...
-# ------------------------------------------------------------------------------
-FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
