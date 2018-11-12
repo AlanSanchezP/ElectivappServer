@@ -1,4 +1,5 @@
 from django.db import models
+from electivapp.apps.users.models import User
 from encrypted_model_fields.fields import EncryptedCharField
 
 CARRERAS = (
@@ -39,15 +40,15 @@ class Alumno(models.Model):
             creditos += actividad.valor()
         return creditos
 
-class Responsable(models.Model):
+class Responsable(User):
     alumno = models.OneToOneField(
         Alumno,
         on_delete=models.CASCADE,
     )
 
-    password = EncryptedCharField(
-        max_length=20,
-    )
+    def save(self, *args, **kwargs):
+        self.username = self.alumno.boleta
+        super(Responsable, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.alumno.nombre

@@ -10,7 +10,6 @@ from weasyprint import HTML
 
 from .models import Alumno, Responsable
 from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
-import electivapp.apps.alumnos.utils as _utils
 from electivapp.apps.actividades.models import Actividad
 
 # Create your views here.
@@ -125,7 +124,7 @@ class ResponsableDeleteView(LoginRequiredMixin, DeleteView):
 class ResponsablePasswordView(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         responsable = Responsable.objects.get(id = kwargs["pk"])
-        password = _utils.generarPassword()
-        responsable.password = password
+        password = Responsable.objects.make_random_password(length=8)
+        responsable.set_password(password)
         responsable.save()
         return HttpResponse(password)

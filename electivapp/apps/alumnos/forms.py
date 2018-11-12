@@ -2,7 +2,6 @@ import time
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from .models import Alumno, Responsable
-from .utils import generarPassword
 
 class AlumnoForm(forms.ModelForm):
     class Meta:
@@ -34,8 +33,8 @@ class ResponsableForm(AlumnoForm):
             alumno=Alumno.objects.get(boleta=data["boleta"])
         )
         if created:
-            password = generarPassword()
-            responsable.password = password
+            password = Responsable.objects.make_random_password(length=8)
+            responsable.set_password(password)
             responsable.save()
             return password
 
