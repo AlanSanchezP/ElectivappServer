@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
 from electivapp.apps.users.views import HomepageView
+from electivapp.apps.eventos.views import eventos_list
 
 urlpatterns = [
     path("", HomepageView.as_view(), name="home"),
@@ -27,6 +28,8 @@ urlpatterns = [
         include("electivapp.apps.eventos.urls", namespace="eventos"),
     ),
     path("accounts/", include("allauth.urls")),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/eventos", eventos_list),
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

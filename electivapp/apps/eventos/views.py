@@ -2,10 +2,13 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from electivapp.apps.alumnos.models import Responsable
 from .forms import EventoForm
 from .models import EventoAuditorio
+from .serializers import EventoSerializer
 
 class EventosListView(LoginRequiredMixin, ListView):
     template_name = 'eventos/evento_list.html'
@@ -36,3 +39,10 @@ class EventoDeleteView(LoginRequiredMixin, DeleteView):
     model = EventoAuditorio
     context_object_name = 'evento'
     success_url = reverse_lazy('eventos:home')
+
+@api_view(['GET'])
+def eventos_list(request):
+    if request.method == 'GET':
+        eventos = EventoAuditorio.objects.all()
+        serializer = EventoSerializer(eventos, many=True)
+        return Response(serializer.data)
