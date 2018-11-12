@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from electivapp.apps.alumnos.models import Responsable
-from .forms import EventoForm
+from .forms import EventoForm, EventoUpdateForm
 from .models import EventoAuditorio
 from .serializers import EventoSerializer
 
@@ -26,7 +26,7 @@ class EventoFormView(LoginRequiredMixin, FormView):
 
 class EventoUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'eventos/evento_update.html'
-    form_class = EventoForm
+    form_class = EventoUpdateForm
     model = EventoAuditorio
     success_url = reverse_lazy('eventos:home')
 

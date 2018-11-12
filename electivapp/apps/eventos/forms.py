@@ -14,3 +14,8 @@ class EventoForm(forms.ModelForm):
             'fecha': _('Fecha (dd/mm/aaaa HH:MM)'),
             'duracion': _('Duración (HH:MM:ss)')
         }
+
+class EventoUpdateForm(EventoForm):
+    class Meta(EventoForm.Meta):
+        model = EventoForm.Meta.model
+        exclude = ['']
