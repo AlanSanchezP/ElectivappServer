@@ -46,6 +46,10 @@ class Responsable(User):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        verbose_name = "responsable"
+        verbose_name_plural = "responsables"
+
     def save(self, *args, **kwargs):
         self.username = self.alumno.boleta
         super(Responsable, self).save(*args, **kwargs)
