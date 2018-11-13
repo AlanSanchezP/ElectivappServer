@@ -61,7 +61,7 @@ class AlumnoListaView(LoginRequiredMixin, View):
     html_template = get_template('alumnos/alumnos_list.html')
 
     def get(self, request, **kwargs):
-        fecha = datetime.datetime.now()
+        fecha = datetime.now()
         alumnos = Alumno.objects.filter(terminado=True).filter(estatus=False)
 
         rendered_html = self.html_template.render(
