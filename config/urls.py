@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
 from electivapp.apps.users.views import HomepageView
-from electivapp.apps.alumnos.views import carreras_list, CustomAuthToken
-from electivapp.apps.eventos.views import eventos_list
+from electivapp.apps.alumnos.api import CarrerasListAPI, CustomAuthToken
+from electivapp.apps.eventos.api import EventosListAPI
 
 urlpatterns = [
     path("", HomepageView.as_view(), name="home"),
@@ -30,8 +30,8 @@ urlpatterns = [
     ),
     path("accounts/", include("allauth.urls")),
     path("api-auth/", include("rest_framework.urls")),
-    path("api/eventos", eventos_list),
-    path("api/carreras", carreras_list),
+    path("api/eventos", view=EventosListAPI.as_view()),
+    path("api/carreras", view=CarrerasListAPI.as_view()),
     path("api/token-auth/", view=CustomAuthToken.as_view()),
     # Your stuff: custom urls includes go here
 ] + static(
