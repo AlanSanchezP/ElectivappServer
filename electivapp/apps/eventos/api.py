@@ -12,13 +12,10 @@ class EventosListAPI(APIView):
         serializer = EventoSerializer(eventos, many=True)
         return Response(serializer.data)
 
-class RegistrarEventoQRAPI(APIView):
-    # authentication_classes = (TokenAuthentication, )
-    # permission_classes = (IsAuthenticated, )
+class RegistrarAsistenciaAPI(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, format=None):
-        return Response({})
-
-class RegistrarEventoFormAPI(APIView):
-    def post(self, request, format=None):
+        evento_id = request.data.get('evento')
         return Response({})
