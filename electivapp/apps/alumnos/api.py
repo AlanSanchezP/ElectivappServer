@@ -20,12 +20,11 @@ class CarrerasListAPI(APIView):
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         try:
-            evento_id = request.data.get('evento')
             serializer = self.serializer_class(data=request.data,
                                                context={'request': request})
             serializer.is_valid(raise_exception=True)
             user = serializer.validated_data['user']
-            evento = EventoAuditorio.objects.get(id=evento_id, validado=True)
+            evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
             
             if not evento.esResponsable(user):
                 raise exceptions.PermissionDenied('No tienes permiso para modificar este evento.')

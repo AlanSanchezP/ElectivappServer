@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 from .serializers import EventoSerializer
+from electivapp.apps.actividades.models import Actividad
 from .models import EventoAuditorio
 
 class EventosListAPI(APIView):
@@ -17,5 +18,18 @@ class RegistrarAsistenciaAPI(APIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self, request, format=None):
-        evento_id = request.data.get('evento')
-        return Response({})
+        try:
+            evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
+            boleta = request.data.get('boleta')
+            nombre = request.data.get('nombre')
+            carrera = request.data.get('carrera')
+
+            # actividad = Actividad(evento, boleta, nombre, carrera, 1, duracion)
+            
+            return Response({})
+
+        except EventoAuditorio.DoesNotExist:
+            raise exceptions.ValidationError({
+                'evento': 'El evento indicado no existe.',
+                'code': 101
+            })
