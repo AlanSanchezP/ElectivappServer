@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import render
@@ -9,13 +9,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework import exceptions
 from weasyprint import HTML
 
-from .authentication import ResponsableAuthentication
 from .models import Alumno, Responsable, CARRERAS
 from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
 from electivapp.apps.actividades.models import Actividad
+from electivapp.apps.eventos.models import EventoAuditorio
 
 # Create your views here.
 class AlumnosSearchView(LoginRequiredMixin, View):
@@ -135,8 +138,8 @@ class ResponsablePasswordView(LoginRequiredMixin, View):
         return HttpResponse(password)
 
 @api_view(['GET'])
-@authentication_classes((ResponsableAuthentication, ))
-@permission_classes((IsAuthenticated,))
+# @authentication_classes((TokenAuthentication, ))
+# @permission_classes((IsAuthenticated,))
 def carreras_list(request):
     if request.method == 'GET':
         carreras = []
@@ -146,3 +149,44 @@ def carreras_list(request):
                 'nombre': nombre    
             })
         return Response(carreras)
+
+class CustomAuthToken(ObtainAuthToken):
+    def validarPermiso(self, responsable, evento_id):
+        evento = EventoAuditorio.objects.get(id=evento_id, validado=True)
+        duracion = evento.duracion
+        today = datetime.now(timezone.utc)
+
+        if not evento.responsables.all().filter(username=responsable).exists():
+            raise exceptions.PermissionDenied('No tienes permiso para modificar este evento.')
+
+        if today < evento.fecha:
+            raise exceptions.ValidationError({
+                'evento': 'El evento aun no esta disponible.',
+                'code': 102
+            })
+        if today > evento.fecha+duracion:
+            raise exceptions.ValidationError({
+                'evento': 'El evento ha finalizado.',
+                'code': 103
+            })
+
+    def post(self, request, *args, **kwargs):
+        try:
+            evento_id = request.data.get('evento')
+            serializer = self.serializer_class(data=request.data,
+                                               context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            self.validarPermiso(user, evento_id)
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user_id': user.pk,
+                'evento_id': evento_id
+            })
+
+        except EventoAuditorio.DoesNotExist:
+            raise exceptions.ValidationError({
+                'evento': 'El evento indicado no existe.',
+                'code': 101
+            })
