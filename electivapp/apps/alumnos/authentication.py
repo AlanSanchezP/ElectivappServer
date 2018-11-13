@@ -25,8 +25,8 @@ class ResponsableAuthentication(authentication.BaseAuthentication):
                 if today > evento.fecha+duracion:
                     raise exceptions.AuthenticationFailed('El evento ha finalizado.')
 
-                # Cosas bonitas :D
-                raise exceptions.AuthenticationFailed('En teoria existe.')
+                # Caso exitoso
+                return(responsable, None)
             else:
                 raise exceptions.AuthenticationFailed('No tienes permiso para modificar este evento.')
 
