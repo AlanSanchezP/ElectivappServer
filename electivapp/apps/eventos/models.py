@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-
 from django.db import models
 
 from electivapp.apps.alumnos.models import Responsable

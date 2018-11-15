@@ -38,7 +38,7 @@ class CustomAuthToken(ObtainAuthToken):
             return Response({
                 'token': token.key,
                 'user_id': user.pk,
-                'evento_id': evento_id
+                'evento_id': evento.id
             })
 
         except EventoAuditorio.DoesNotExist:

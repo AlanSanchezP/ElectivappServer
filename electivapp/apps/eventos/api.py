@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -9,7 +11,10 @@ from .models import EventoAuditorio
 
 class EventosListAPI(APIView):
     def get(self, request, format=None):
-        eventos = EventoAuditorio.objects.all()
+        eventos = EventoAuditorio.objects.filter(
+            # fecha__gte=datetime.now(),
+            validado=True
+        )
         serializer = EventoSerializer(eventos, many=True)
         return Response(serializer.data)
 
