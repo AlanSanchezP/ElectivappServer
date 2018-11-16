@@ -1,4 +1,5 @@
 from urllib.request import urlopen
+from urllib.error import URLError
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 
@@ -23,6 +24,9 @@ class EventosListAPI(APIView):
         return Response(serializer.data)
 
 class RegistrarAsistenciaQRAPI(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    
     def post(self, request, format=None):
         try:
             url = request.data.get('url')
@@ -57,6 +61,16 @@ class RegistrarAsistenciaQRAPI(APIView):
             raise exceptions.ValidationError({
                 'detail': 'El evento indicado no existe.',
                 'code': 101
+            })
+        except URLError:
+            raise exceptions.ValidationError({
+                'detail': 'No se pudo acceder a la pagina.',
+                'code': 205
+            })
+        except AttributeError:
+            raise exceptions.ValidationError({
+                'detail': 'No se encontró un campo obligatorio.',
+                'code': 206
             })
 
 def registrarAsistencia(boleta, nombre, carrera, evento):
@@ -111,6 +125,12 @@ class RegistrarAsistenciaAPI(APIView):
             boleta = request.data.get('boleta')
             nombre = request.data.get('nombre')
             carrera = request.data.get('carrera')
+
+            if boleta == None or nombre == None or carrera == None:
+                raise exceptions.ValidationError({
+                    'detail': 'No se encontró un campo obligatorio.',
+                    'code': 206
+                })
 
             response = registrarAsistencia(boleta, nombre, carrera, evento)
             

@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.views import defaults as default_views
 from electivapp.apps.users.views import HomepageView
 from electivapp.apps.alumnos.api import CarrerasListAPI, CustomAuthToken
-from electivapp.apps.eventos.api import EventosListAPI, RegistrarAsistenciaQRAPI
+from electivapp.apps.eventos.api import EventosListAPI, RegistrarAsistenciaQRAPI, RegistrarAsistenciaAPI
 
 urlpatterns = [
     path("", HomepageView.as_view(), name="home"),
@@ -34,6 +34,7 @@ urlpatterns = [
     path("api/carreras", view=CarrerasListAPI.as_view()),
     path("api/token-auth/", view=CustomAuthToken.as_view()),
     path("api/eventos/asistencia/qr", view=RegistrarAsistenciaQRAPI.as_view()),
+    path("api/eventos/asistencia/form", view=RegistrarAsistenciaAPI.as_view()),
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
