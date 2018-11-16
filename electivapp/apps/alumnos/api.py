@@ -31,8 +31,8 @@ class CustomAuthToken(ObtainAuthToken):
             
             if not evento.esResponsable(user):
                 raise exceptions.PermissionDenied(
-                    errors.AUTHENTICATION_PERMISSION_DENIED.detail,
-                    errors.AUTHENTICATION_PERMISSION_DENIED.code
+                    errors.AUTHENTICATION_PERMISSION_DENIED['detail'],
+                    errors.AUTHENTICATION_PERMISSION_DENIED['code']
                 )
 
             vigente = evento.vigente()
