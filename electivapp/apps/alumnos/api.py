@@ -4,6 +4,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import exceptions
 
+from electivapp.core import errors
 from .models import Alumno, Responsable, CARRERAS
 from electivapp.apps.eventos.models import EventoAuditorio
 
@@ -23,16 +24,16 @@ class CustomAuthToken(ObtainAuthToken):
             serializer = self.serializer_class(data=request.data,
                                                context={'request': request})
             if not serializer.is_valid():
-                raise exceptions.ValidationError({
-                    'detail': 'Boleta y/o contraseña inválidos.',
-                    'code': 301
-                })
+                raise exceptions.ValidationError(errors.AUTHENTICATION_INVALID_CREDENTIALS)
 
             user = serializer.validated_data['user']
             evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
             
             if not evento.esResponsable(user):
-                raise exceptions.PermissionDenied('No tienes permiso para modificar este evento.')
+                raise exceptions.PermissionDenied(
+                    errors.AUTHENTICATION_PERMISSION_DENIED.detail,
+                    errors.AUTHENTICATION_PERMISSION_DENIED.code
+                )
 
             vigente = evento.vigente()
 
@@ -47,7 +48,4 @@ class CustomAuthToken(ObtainAuthToken):
             })
 
         except EventoAuditorio.DoesNotExist:
-            raise exceptions.ValidationError({
-                'detail': 'El evento indicado no existe.',
-                'code': 101
-            })
+            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)

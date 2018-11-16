@@ -11,7 +11,8 @@ from rest_framework import exceptions
 
 from .serializers import EventoSerializer
 from electivapp.apps.actividades.models import TipoActividad, Actividad
-from electivapp.apps.alumnos.models import Alumno, CARRERAS
+from electivapp.apps.alumnos.models import Responsable, Alumno, CARRERAS
+from electivapp.core import errors
 from .models import EventoAuditorio
 
 class EventosListAPI(APIView):
@@ -34,10 +35,7 @@ class RegistrarAsistenciaQRAPI(APIView):
             user = request.data.get('user')
 
             if url == None or user == None:
-                raise exceptions.ValidationError({
-                    'detail': 'No se encontró un campo obligatorio.',
-                    'code': 206
-                })
+                raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
             page = urlopen(url).read()
             document = BeautifulSoup(page, 'html.parser')
@@ -49,45 +47,33 @@ class RegistrarAsistenciaQRAPI(APIView):
             valido = document.find('div', attrs={'class': 'cred cok'}).text.strip()
 
             if valido != 'CREDENCIAL VIGENTE':
-                raise exceptions.ValidationError({
-                    'detail': 'La boleta ha expirado.',
-                    'code': 201
-                })
+                raise exceptions.ValidationError(errors.ATTENDANCE_EXPIRED_STUDENT)
 
             if escuela != 'UPIICSA':
-                raise exceptions.ValidationError({
-                    'detail': 'La boleta no corresponde a la escuela.',
-                    'code': 202
-                })
+                raise exceptions.ValidationError(errors.ATTENDANCE_FOREIGN_STUDENT)
 
             response = registrarAsistencia(boleta, nombre, carrera, evento, user)
 
             return Response(response)
 
         except EventoAuditorio.DoesNotExist:
-            raise exceptions.ValidationError({
-                'detail': 'El evento indicado no existe.',
-                'code': 101
-            })
+            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
         except URLError:
-            raise exceptions.ValidationError({
-                'detail': 'No se pudo acceder a la pagina.',
-                'code': 205
-            })
+            raise exceptions.ValidationError(errors.ATTENDANCE_BAD_URL)
         except AttributeError:
-            raise exceptions.ValidationError({
-                'detail': 'No se encontró un campo obligatorio.',
-                'code': 206
-            })
+            raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
 def registrarAsistencia(boleta, nombre, carrera, evento, user):
     alumno = None
     try:
-        responsable = evento.esResponsable(Responsable.objects.get(user=user))
+        responsable = evento.esResponsable(Responsable.objects.get(id=user).username)
         if responsable != True:
-            raise exceptions.PermissionDenied('No tienes permiso para modificar este evento.')
+            raise exceptions.PermissionDenied(
+                errors.AUTHENTICATION_PERMISSION_DENIED.detail,
+                errors.AUTHENTICATION_PERMISSION_DENIED.code
+            )
 
-        vigente = vigente.valido()
+        vigente = evento.vigente()
         if vigente != True:
             raise exceptions.ValidationError(vigente)
 
@@ -100,10 +86,7 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
     try:
         alumno = Alumno.objects.get(boleta=boleta)
         if evento.asistentes.filter(boleta=boleta).exists():
-            raise exceptions.ValidationError({
-                'detail': 'El alumno ya ha asistido a este evento.',
-                'code': 203
-            })
+            raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
         
     except Alumno.DoesNotExist:
         code = None
@@ -113,10 +96,7 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
                 break
 
         if code == None:
-            raise exceptions.ValidationError({
-                'detail': 'Nombre de carrera invalido.',
-                'code': 204
-            })
+            raise exceptions.ValidationError(errors.ATTENDANCE_INVALID_PROGRAM)
 
         alumno = Alumno.objects.create(
             boleta=boleta,
@@ -150,17 +130,11 @@ class RegistrarAsistenciaAPI(APIView):
             user = request.data.get('user')
 
             if boleta == None or nombre == None or carrera == None or user == None:
-                raise exceptions.ValidationError({
-                    'detail': 'No se encontró un campo obligatorio.',
-                    'code': 206
-                })
+                raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
             response = registrarAsistencia(boleta, nombre, carrera, evento, user)
             
             return Response(response)
 
         except EventoAuditorio.DoesNotExist:
-            raise exceptions.ValidationError({
-                'detail': 'El evento indicado no existe.',
-                'code': 101
-            })
+            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)

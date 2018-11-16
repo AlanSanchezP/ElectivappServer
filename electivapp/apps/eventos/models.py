@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from django.db import models
 
+from electivapp.core.errors import EVENT_HAS_NOT_STARTED, EVENT_HAS_FINISHED
 from electivapp.apps.alumnos.models import Alumno, Responsable
 
 # Create your models here.
@@ -30,15 +31,9 @@ class EventoAuditorio(models.Model):
         today = datetime.now(timezone.utc)
 
         if today < self.fecha:
-            return {
-                'detail': 'El evento aun no esta disponible.',
-                'code': 102
-            }
+            return EVENT_HAS_NOT_STARTED
         if today > self.fecha + self.duracion:
-            return {
-                'detail': 'El evento ha finalizado.',
-                'code': 103
-            }
+            return EVENT_HAS_FINISHED
 
         return True
 
