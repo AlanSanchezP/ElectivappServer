@@ -10,7 +10,7 @@ EVENT_HAS_NOT_STARTED = {
 }
 
 EVENT_HAS_FINISHED = {
-    'detail': 'El evento aun no esta disponible.',
+    'detail': 'El evento aún no esta disponible.',
     'code': 103
 }
 
@@ -31,12 +31,12 @@ ATTENDANCE_DUPLICATED_STUDENT = {
 }
 
 ATTENDANCE_INVALID_PROGRAM = {
-    'detail': 'Nombre de carrera invalido.',
+    'detail': 'Nombre de carrera inválido.',
     'code': 204
 }
 
 ATTENDANCE_BAD_URL = {
-    'detail': 'No se pudo acceder a la pagina.',
+    'detail': 'No se pudo acceder a la página.',
     'code': 205
 }
 
