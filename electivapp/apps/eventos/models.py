@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from django.db import models
 
-from electivapp.apps.alumnos.models import Responsable
+from electivapp.apps.alumnos.models import Alumno, Responsable
 
 # Create your models here.
 class EventoAuditorio(models.Model):
@@ -15,6 +15,10 @@ class EventoAuditorio(models.Model):
 
     responsables = models.ManyToManyField(
         Responsable
+    )
+
+    asistentes = models.ManyToManyField(
+        Alumno
     )
 
     validado = models.BooleanField(

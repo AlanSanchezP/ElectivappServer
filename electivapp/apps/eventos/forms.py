@@ -6,7 +6,7 @@ from .models import EventoAuditorio
 class EventoForm(forms.ModelForm):
     class Meta:
         model = EventoAuditorio
-        exclude = ['validado']
+        exclude = ['validado', 'asistentes']
         widgets = {
             'fecha': forms.DateTimeInput(format='%d/%m/%Y %H:%M')
         }
@@ -18,4 +18,4 @@ class EventoForm(forms.ModelForm):
 class EventoUpdateForm(EventoForm):
     class Meta(EventoForm.Meta):
         model = EventoForm.Meta.model
-        exclude = ['']
+        exclude = ['asistentes']
