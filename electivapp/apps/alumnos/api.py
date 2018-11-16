@@ -22,7 +22,12 @@ class CustomAuthToken(ObtainAuthToken):
         try:
             serializer = self.serializer_class(data=request.data,
                                                context={'request': request})
-            serializer.is_valid(raise_exception=True)
+            if not serializer.is_valid():
+                raise exceptions.ValidationError({
+                    'detail': 'Boleta y/o contraseña inválidos.',
+                    'code': 301
+                })
+
             user = serializer.validated_data['user']
             evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
             

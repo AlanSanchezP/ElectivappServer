@@ -31,12 +31,12 @@ class EventoAuditorio(models.Model):
 
         if today < self.fecha:
             return {
-                'evento': 'El evento aun no esta disponible.',
+                'detail': 'El evento aun no esta disponible.',
                 'code': 102
             }
         if today > self.fecha + self.duracion:
             return {
-                'evento': 'El evento ha finalizado.',
+                'detail': 'El evento ha finalizado.',
                 'code': 103
             }
 
