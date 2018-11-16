@@ -18,6 +18,32 @@ class EventosListAPI(APIView):
         serializer = EventoSerializer(eventos, many=True)
         return Response(serializer.data)
 
+class RegistrarAsistenciaQRAPI(APIView):
+    def post(self, request, format=None):
+        try:
+            url = request.data.get('url')
+            evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
+
+            # Scrapping
+
+            # boleta = request.data.get('boleta')
+            # nombre = request.data.get('nombre')
+            # carrera = request.data.get('carrera')
+
+            # registrarAsistencia(boleta, nombre, carrera, evento.id)
+
+            return Response({})
+
+        except EventoAuditorio.DoesNotExist:
+            raise exceptions.ValidationError({
+                'evento': 'El evento indicado no existe.',
+                'code': 101
+            })
+
+def registrarAsistencia(boleta, nombre, carrera, evento):
+    # actividad = Actividad(evento, boleta, nombre, carrera, 1, duracion)
+    return
+
 class RegistrarAsistenciaAPI(APIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
@@ -29,7 +55,7 @@ class RegistrarAsistenciaAPI(APIView):
             nombre = request.data.get('nombre')
             carrera = request.data.get('carrera')
 
-            # actividad = Actividad(evento, boleta, nombre, carrera, 1, duracion)
+            registrarAsistencia(boleta, nombre, carrera, evento.id)
             
             return Response({})
 
