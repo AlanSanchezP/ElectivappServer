@@ -5,12 +5,12 @@ EVENT_DOES_NOT_EXIST = {
 }
 
 EVENT_HAS_NOT_STARTED = {
-    'detail': 'El evento ha finalizado.',
+    'detail': 'El evento aún no esta disponible.',
     'code': 102
 }
 
 EVENT_HAS_FINISHED = {
-    'detail': 'El evento aún no esta disponible.',
+    'detail': 'El evento ha finalizado.',
     'code': 103
 }
 
