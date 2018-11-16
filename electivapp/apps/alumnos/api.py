@@ -43,6 +43,6 @@ class CustomAuthToken(ObtainAuthToken):
 
         except EventoAuditorio.DoesNotExist:
             raise exceptions.ValidationError({
-                'evento': 'El evento indicado no existe.',
+                'detail': 'El evento indicado no existe.',
                 'code': 101
             })

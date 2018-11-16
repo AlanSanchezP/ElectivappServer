@@ -18,7 +18,8 @@ class EventoAuditorio(models.Model):
     )
 
     asistentes = models.ManyToManyField(
-        Alumno
+        Alumno,
+        blank=True,
     )
 
     validado = models.BooleanField(
