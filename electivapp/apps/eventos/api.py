@@ -31,6 +31,13 @@ class RegistrarAsistenciaQRAPI(APIView):
         try:
             url = request.data.get('url')
             evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
+            user = request.data.get('user')
+
+            if url == None or user == None:
+                raise exceptions.ValidationError({
+                    'detail': 'No se encontró un campo obligatorio.',
+                    'code': 206
+                })
 
             page = urlopen(url).read()
             document = BeautifulSoup(page, 'html.parser')
@@ -53,7 +60,7 @@ class RegistrarAsistenciaQRAPI(APIView):
                     'code': 202
                 })
 
-            response = registrarAsistencia(boleta, nombre, carrera, evento)
+            response = registrarAsistencia(boleta, nombre, carrera, evento, user)
 
             return Response(response)
 
@@ -73,8 +80,23 @@ class RegistrarAsistenciaQRAPI(APIView):
                 'code': 206
             })
 
-def registrarAsistencia(boleta, nombre, carrera, evento):
+def registrarAsistencia(boleta, nombre, carrera, evento, user):
     alumno = None
+    try:
+        responsable = evento.esResponsable(Responsable.objects.get(user=user))
+        if responsable != True:
+            raise exceptions.PermissionDenied('No tienes permiso para modificar este evento.')
+
+        vigente = vigente.valido()
+        if vigente != True:
+            raise exceptions.ValidationError(vigente)
+
+    except Responsable.DoesNotExist:
+        raise exceptions.ValidationError({
+            'detail': 'Boleta y/o contraseña inválidos.',
+            'code': 301
+        })
+
     try:
         alumno = Alumno.objects.get(boleta=boleta)
         if evento.asistentes.filter(boleta=boleta).exists():
@@ -125,14 +147,15 @@ class RegistrarAsistenciaAPI(APIView):
             boleta = request.data.get('boleta')
             nombre = request.data.get('nombre')
             carrera = request.data.get('carrera')
+            user = request.data.get('user')
 
-            if boleta == None or nombre == None or carrera == None:
+            if boleta == None or nombre == None or carrera == None or user == None:
                 raise exceptions.ValidationError({
                     'detail': 'No se encontró un campo obligatorio.',
                     'code': 206
                 })
 
-            response = registrarAsistencia(boleta, nombre, carrera, evento)
+            response = registrarAsistencia(boleta, nombre, carrera, evento, user)
             
             return Response(response)
 
