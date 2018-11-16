@@ -69,8 +69,8 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
         responsable = evento.esResponsable(Responsable.objects.get(id=user).username)
         if responsable != True:
             raise exceptions.PermissionDenied(
-                errors.AUTHENTICATION_PERMISSION_DENIED.detail,
-                errors.AUTHENTICATION_PERMISSION_DENIED.code
+                errors.AUTHENTICATION_PERMISSION_DENIED['detail'],
+                errors.AUTHENTICATION_PERMISSION_DENIED['code']
             )
 
         vigente = evento.vigente()
