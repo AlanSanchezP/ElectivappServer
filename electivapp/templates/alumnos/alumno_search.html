@@ -43,7 +43,7 @@
             <div class="row" style="margin: 2em auto; max-width: 500px;">
                 <div class="col-md-6 text-center" style="font-size: 20px">
                     Total de creditos: <br>
-                    <b>{{ alumno.creditos }}</b>
+                    <b>{{ alumno.creditos|floatformat:2 }}</b>
                 </div>
                 <div class="col-md-6 text-center">
                     <button id="btnDesglose" type="button" class="btn btn-primary">
