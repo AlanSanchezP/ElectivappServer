@@ -251,8 +251,6 @@ SOCIALACCOUNT_ADAPTER = 'electivapp.apps.users.adapters.SocialAccountAdapter'
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
 
-FIELD_ENCRYPTION_KEY = env('FIELD_ENCRYPTION_KEY')
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
