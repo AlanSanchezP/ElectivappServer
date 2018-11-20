@@ -15,6 +15,7 @@
 
     <div class="elementos-lista">
         {% for tipo in tipos %}
+        {% if tipo.id != 1%}
         <div class="row elemento-lista">
           <div class="col-md-7">
             <h3 class="list-group-item-heading">{{ tipo.nombre }}</h3>
@@ -32,6 +33,7 @@
             </button>
           </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
