@@ -3,9 +3,10 @@ from django.db import models
 from electivapp.apps.alumnos.models import Alumno
 
 CATEGORIAS = (
-    ('C1', 'Cat1'),
-    ('C2', 'Cat2'),
-    ('C3', 'Cat3'),
+    ('IV', 'Inquietudes vocacionales'),
+    ('CF', 'Complementarias a la formación'),
+    ('EP', 'Enfásis en la profesión'),
+    ('PE', 'Proyectos especiales'),
 )
 
 # Create your models here.

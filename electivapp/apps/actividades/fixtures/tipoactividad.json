@@ -1,0 +1,11 @@
+[
+  {
+    "model": "actividades.tipoactividad",
+    "pk": 1,
+    "fields": {
+      "nombre": "Evento en auditorio",
+      "categoria": "EP",
+      "horasRequeridas": 16
+    }
+  }
+]
