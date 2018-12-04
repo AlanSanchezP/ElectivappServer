@@ -53,9 +53,8 @@ class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         boleta = form.save().boleta
-        return HttpResponseRedirect(
-            reverse_lazy('alumnos:consulta_boleta', kwargs={"pk": boleta})
-        )
+        url = reverse_lazy('alumnos:consulta') + '?boleta=' + str(boleta)
+        return HttpResponseRedirect(url)
 
 class AlumnoListaView(LoginRequiredMixin, View):
     html_template = get_template('alumnos/alumnos_list.html')
