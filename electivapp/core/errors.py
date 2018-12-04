@@ -14,6 +14,11 @@ EVENT_HAS_FINISHED = {
     'code': 103
 }
 
+EVENT_OVERLAP = {
+    'detail': 'No puede haber 2 eventos al mismo tiempo.',
+    'code': 104
+}
+
 # Errores de captura de datos (Grupo 200)
 ATTENDANCE_EXPIRED_STUDENT = {
     'detail': 'La boleta ha expirado.',

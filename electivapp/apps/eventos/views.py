@@ -2,6 +2,8 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ValidationError
+from django.forms.utils import ErrorList
 
 from electivapp.apps.alumnos.models import Responsable
 from .forms import EventoForm, EventoUpdateForm
@@ -18,8 +20,12 @@ class EventoFormView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('eventos:home')
 
     def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
+        try:
+            form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        except ValidationError as e:
+            form.add_error(None, e)
+            return super(EventoFormView, self).form_invalid(form)
 
 class EventoUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'eventos/evento_update.html'
@@ -28,8 +34,12 @@ class EventoUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('eventos:home')
 
     def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
+        try:
+            form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        except ValidationError as e:
+            form.add_error(None, e)
+            return super(EventoFormView, self).form_invalid(form)
 
 class EventoDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'eventos/evento_confirm_delete.html'

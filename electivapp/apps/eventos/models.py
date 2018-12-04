@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 from django.db import models
+from django.core.exceptions import ValidationError
 
-from electivapp.core.errors import EVENT_HAS_NOT_STARTED, EVENT_HAS_FINISHED
+from electivapp.core.errors import EVENT_HAS_NOT_STARTED, EVENT_HAS_FINISHED, EVENT_OVERLAP
 from electivapp.apps.alumnos.models import Alumno, Responsable
 
 # Create your models here.
@@ -26,6 +27,14 @@ class EventoAuditorio(models.Model):
     validado = models.BooleanField(
         default=False
     )
+
+    def save(self, *args, **kwargs):
+        eventos_aux = EventoAuditorio.objects.filter(
+            fecha__date__range=(self.fecha, self.fecha+self.duracion)
+        )
+        if eventos_aux.count() and (self.id == None or self.id != eventos_aux.first().id):
+            raise ValidationError(EVENT_OVERLAP['detail'])
+        super(EventoAuditorio, self).save(*args, **kwargs)
 
     def vigente(self):
         today = datetime.now(timezone.utc)
