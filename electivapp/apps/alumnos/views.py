@@ -87,11 +87,18 @@ class ResponsableFormView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         passw = form.save()
-        messages.add_message(
-            self.request, 
-            messages.INFO, 
-            "La contraseña del responsable es {0}".format(passw),
-        )
+        if (passw != None):
+            messages.add_message(
+                self.request, 
+                messages.INFO, 
+                "La contraseña del responsable es {0}".format(passw),
+            )
+        else:
+            messages.add_message(
+                self.request, 
+                messages.ERROR, 
+                "El responsable ya ha sido dado de alta con anterioridad.",
+            )
         return HttpResponseRedirect(self.get_success_url())
 
 class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
