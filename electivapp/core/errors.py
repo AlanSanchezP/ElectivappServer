@@ -19,6 +19,11 @@ EVENT_OVERLAP = {
     'code': 104
 }
 
+EVENT_INVALID_DATE = {
+    'detail': 'La fecha del evento debe de ser, al menos, un día después del registro.',
+    'code': 105
+}
+
 # Errores de captura de datos (Grupo 200)
 ATTENDANCE_EXPIRED_STUDENT = {
     'detail': 'La boleta ha expirado.',
