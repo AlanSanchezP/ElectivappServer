@@ -28,7 +28,7 @@ class EventoAuditorio(models.Model):
         default=False
     )
 
-    def save(self, *args, **kwargs):
+    def clean(self, *args, **kwargs):
         t = date.today()
         today = datetime(
             year=t.year,
@@ -45,8 +45,6 @@ class EventoAuditorio(models.Model):
         )
         if eventos_aux.count() and (self.id == None or self.id != eventos_aux.first().id):
             raise ValidationError(EVENT_OVERLAP['detail'])
-
-        super(EventoAuditorio, self).save(*args, **kwargs)
 
     def vigente(self):
         today = datetime.now(timezone.utc)
