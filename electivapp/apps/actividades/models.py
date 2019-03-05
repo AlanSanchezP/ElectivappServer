@@ -1,5 +1,7 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
+from electivapp.core.errors import ACTIVITY_TYPE_CREDITS
 from electivapp.apps.alumnos.models import Alumno
 
 CATEGORIAS = (
@@ -21,6 +23,10 @@ class TipoActividad(models.Model):
     )
 
     horasRequeridas = models.PositiveIntegerField()
+
+    def clean(self, *args, **kwargs):
+        if self.horasRequeridas == 0:
+            raise ValidationError(ACTIVITY_TYPE_CREDITS['detail'])
 
 class Actividad(models.Model):
     duracion = models.DecimalField(
