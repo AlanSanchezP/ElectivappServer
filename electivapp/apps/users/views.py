@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView, UpdateView
 
+from electivapp.core.mixins import AdminStaffRequiredMixin
+
 User = get_user_model()
 
 class HomepageView(LoginRequiredMixin, TemplateView):
@@ -18,7 +20,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 user_detail_view = UserDetailView.as_view()
 
 
-class UserListView(LoginRequiredMixin, ListView):
+class UserListView(AdminStaffRequiredMixin, ListView):
 
     model = User
     slug_field = "username"
@@ -28,7 +30,7 @@ class UserListView(LoginRequiredMixin, ListView):
 user_list_view = UserListView.as_view()
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(AdminStaffRequiredMixin, UpdateView):
 
     model = User
     fields = ["name"]
@@ -43,7 +45,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 user_update_view = UserUpdateView.as_view()
 
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
+class UserRedirectView(AdminStaffRequiredMixin, RedirectView):
 
     permanent = False
 

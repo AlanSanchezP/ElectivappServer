@@ -4,16 +4,16 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView, FormView, UpdateView, DeleteView, ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from weasyprint import HTML
 
+from electivapp.core.mixins import AdminStaffRequiredMixin
 from .models import Alumno, Responsable
 from .forms import AlumnoForm, ResponsableForm, ResponsableUpdateForm
 from electivapp.apps.actividades.models import Actividad
 
 # Create your views here.
-class AlumnosSearchView(LoginRequiredMixin, View):
+class AlumnosSearchView(AdminStaffRequiredMixin, View):
     template_name = 'alumnos/alumno_search.html'
 
     def get(self, request, **kwargs):
@@ -46,7 +46,7 @@ class AlumnosSearchView(LoginRequiredMixin, View):
                 self.template_name
             )
 
-class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
+class AlumnoUpdateView(AdminStaffRequiredMixin, UpdateView):
     template_name = 'alumnos/alumno_update.html'
     form_class = AlumnoForm
     model = Alumno
@@ -56,7 +56,7 @@ class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
         url = reverse_lazy('alumnos:consulta') + '?boleta=' + str(boleta)
         return HttpResponseRedirect(url)
 
-class AlumnoListaView(LoginRequiredMixin, View):
+class AlumnoListaView(AdminStaffRequiredMixin, View):
     html_template = get_template('alumnos/alumnos_list.html')
 
     def get(self, request, **kwargs):
@@ -74,12 +74,12 @@ class AlumnoListaView(LoginRequiredMixin, View):
 
         return response
 
-class ResponsablesListView(LoginRequiredMixin, ListView):
+class ResponsablesListView(AdminStaffRequiredMixin, ListView):
     template_name = 'alumnos/responsable_list.html'
     model = Responsable
     context_object_name = 'responsables'
 
-class ResponsableFormView(LoginRequiredMixin, FormView):
+class ResponsableFormView(AdminStaffRequiredMixin, FormView):
     template_name = 'alumnos/responsable_form.html'
     form_class = ResponsableForm
     success_url = reverse_lazy('alumnos:lista_responsables')
@@ -100,7 +100,7 @@ class ResponsableFormView(LoginRequiredMixin, FormView):
             )
         return HttpResponseRedirect(self.get_success_url())
 
-class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
+class ResponsableUpdateView(AdminStaffRequiredMixin, UpdateView):
     template_name = 'alumnos/responsable_update.html'
     form_class = ResponsableUpdateForm
     model = Responsable
@@ -121,13 +121,13 @@ class ResponsableUpdateView(LoginRequiredMixin, UpdateView):
         form.save()
         return HttpResponseRedirect(self.get_success_url())
 
-class ResponsableDeleteView(LoginRequiredMixin, DeleteView):
+class ResponsableDeleteView(AdminStaffRequiredMixin, DeleteView):
     template_name = 'alumnos/responsable_confirm_delete.html'
     model = Responsable
     context_object_name = 'responsable'
     success_url = reverse_lazy('alumnos:lista_responsables')
 
-class ResponsablePasswordView(LoginRequiredMixin, View):
+class ResponsablePasswordView(AdminStaffRequiredMixin, View):
     def post(self, request, **kwargs):
         responsable = Responsable.objects.get(id = kwargs["pk"])
         password = Responsable.objects.make_random_password(length=8)
