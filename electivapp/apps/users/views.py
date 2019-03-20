@@ -7,7 +7,7 @@ from electivapp.core.mixins import AdminStaffRequiredMixin
 
 User = get_user_model()
 
-class HomepageView(LoginRequiredMixin, TemplateView):
+class HomepageView(AdminStaffRequiredMixin, TemplateView):
     template_name = 'pages/home.html'
 
 class UserDetailView(LoginRequiredMixin, DetailView):
