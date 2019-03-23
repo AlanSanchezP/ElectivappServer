@@ -23,3 +23,19 @@
     </div>
   </form>
 {% endblock %}
+
+{% block customjs %}
+
+<script>
+  $(function () {
+    var div = $("#id_fecha").parent().addClass("input-group").addClass("date").attr("id","datetimepicker1").attr("data-target-input","nearest");
+    div.append("<div class=\"input-group-append\" data-target=\"#datetimepicker1\" data-toggle=\"datetimepicker\">"+
+    "<div class=\"input-group-text\"><i class=\"fa fa-calendar\"></i></div>"+
+  "</div>")
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+    });
+  });
+</script>
+
+{% endblock %}
