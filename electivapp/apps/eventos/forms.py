@@ -8,7 +8,11 @@ class EventoForm(forms.ModelForm):
         model = EventoAuditorio
         exclude = ['validado', 'asistentes']
         widgets = {
-            'fecha': forms.DateTimeInput(format='%d/%m/%Y %H:%M')
+            'fecha': forms.DateTimeInput(attrs={
+                'class': 'datetimepicker-input',
+                'data-target': '#datetimepicker1'},
+                format='%d/%m/%Y %H:%M')
+
         }
         labels = {
             'fecha': _('Fecha (dd/mm/aaaa HH:MM)'),

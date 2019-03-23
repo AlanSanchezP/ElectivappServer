@@ -4,6 +4,7 @@
 {% block title %}Nuevo evento{% endblock %}
 
 {% block content %}
+
 <div class="container">
     <div class="row" style="align-items: center">
         <a class="btn btn-secondary" href="{% url 'eventos:home' %}">
@@ -13,13 +14,31 @@
         <h1 class="col-md-6 text-center mx-auto">Nuevo evento</h2>
     </div>
 </div>
+
   <form class="form-horizontal formulario" method="post">
     {% csrf_token %}
     {{ form|crispy }}
+
     <div class="control-group">
       <div class="controls">
         <button type="submit" class="btn">Guardar</button>
       </div>
     </div>
   </form>
+{% endblock %}
+
+{% block customjs %}
+
+<script>
+  $(function () {
+    var div = $("#id_fecha").parent().addClass("input-group").addClass("date").attr("id","datetimepicker1").attr("data-target-input","nearest");
+    div.append("<div class=\"input-group-append\" data-target=\"#datetimepicker1\" data-toggle=\"datetimepicker\">"+
+    "<div class=\"input-group-text\"><i class=\"fa fa-calendar\"></i></div>"+
+  "</div>")
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+    });
+  });
+</script>
+
 {% endblock %}
