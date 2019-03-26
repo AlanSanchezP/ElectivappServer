@@ -12,7 +12,6 @@ DEBUG = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="gImhMpvHvX8up8pAi7RUYoZNBPLe2oahFeqCbRyE7e5ZTYFDhaE6IltN1rrwVzFp")
 # https://docs.djangoproject.com/en/dev/ref/settings/#test-runner
-TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
 # CACHES
 # ------------------------------------------------------------------------------

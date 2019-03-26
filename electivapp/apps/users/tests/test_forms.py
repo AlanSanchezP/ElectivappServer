@@ -1,7 +1,7 @@
 import pytest
 
-from electivapp.users.forms import UserCreationForm
-from electivapp.users.tests.factories import UserFactory
+from electivapp.apps.users.forms import UserCreationForm
+from electivapp.apps.users.tests.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 

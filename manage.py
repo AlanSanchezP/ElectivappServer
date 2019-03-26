@@ -27,4 +27,21 @@ if __name__ == "__main__":
     current_path = os.path.dirname(os.path.abspath(__file__))
     sys.path.append(os.path.join(current_path, "electivapp"))
 
+    # execute_from_command_line(sys.argv)
+
+    from django.core.management import execute_from_command_line
+
+    is_testing = 'test' in sys.argv
+
+    if is_testing:
+        import coverage
+        cov = coverage.coverage(source=['electivapp.apps'])
+        cov.erase()
+        cov.start()
+
     execute_from_command_line(sys.argv)
+
+    if is_testing:
+        cov.stop()
+        cov.save()
+        cov.report()

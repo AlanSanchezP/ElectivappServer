@@ -1,5 +1,7 @@
 [run]
-include = electivapp/*
-omit = *migrations*, *tests*
-plugins =
-    django_coverage_plugin
+omit = 
+    */migrations/*, 
+    */tests/*, 
+    */__init__.py, 
+    */tests.py, 
+    */admin.py
