@@ -6,3 +6,5 @@ omit =
     */tests.py, 
     */apps.py, 
     */admin.py
+    */users/*
+
