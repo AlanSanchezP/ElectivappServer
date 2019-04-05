@@ -1,12 +1,37 @@
+from datetime import date
+
 from django.test import TestCase
-from .models import TipoActividad
+from django.core.exceptions import ValidationError
 
-# models test
-class WhateverTest(TestCase):
+from .models import TipoActividad, Actividad
+from electivapp.apps.alumnos.models import Alumno
 
-    def create_whatever(self, nombre="only a test", categoria="IV", horasRequeridas=5):
-        return TipoActividad.objects.create(nombre=nombre, categoria=categoria, horasRequeridas=horasRequeridas)
+class Test_TipoActividad(TestCase):
+    def test_horas_mayor_cero(self):
+        obj = TipoActividad.objects.create(
+            nombre="Nombre de prueba",
+            categoria="IV",
+            horasRequeridas=0,
+        )
+        self.assertRaises(ValidationError, obj.clean)
 
-    def test_whatever_creation(self):
-        w = self.create_whatever()
-        self.assertTrue(isinstance(w, TipoActividad))
+class Test_Actividad(TestCase):
+    def test_valor_function(self):
+        tipo = TipoActividad.objects.create(
+            nombre="Nombre de prueba",
+            categoria="IV",
+            horasRequeridas=10,
+        )
+        alumno = Alumno.objects.create(
+            boleta=2016601609,
+            nombre="Alan Sánchez Pineda",
+            carrera="II",
+        )
+
+        obj = Actividad.objects.create(
+            duracion=3.2,
+            alumno=alumno,
+            tipo=tipo,
+            fecha=date.today()
+        )
+        self.assertEquals(obj.valor(), 0.32)
