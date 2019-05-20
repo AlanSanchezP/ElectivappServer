@@ -13,6 +13,7 @@ CARRERAS = (
 # Create your models here.
 class Alumno(models.Model):
     boleta = models.BigIntegerField(
+        unique=True,
         default=2000160000,
         validators=[
             MaxValueValidator(9999999999),
