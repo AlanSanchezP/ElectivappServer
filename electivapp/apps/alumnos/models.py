@@ -16,7 +16,7 @@ class Alumno(models.Model):
         default=2000160000,
         validators=[
             MaxValueValidator(9999999999),
-            MinValueValidator(1936600000)
+            MinValueValidator(1936000000)
         ]
     )
 
