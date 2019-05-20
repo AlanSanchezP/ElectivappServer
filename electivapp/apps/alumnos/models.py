@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from electivapp.apps.users.models import User
 
 CARRERAS = (
@@ -11,7 +12,13 @@ CARRERAS = (
 
 # Create your models here.
 class Alumno(models.Model):
-    boleta = models.PositiveIntegerField()
+    boleta = models.BigIntegerField(
+        default=2000160000,
+        validators=[
+            MaxValueValidator(9999999999),
+            MinValueValidator(1936600000)
+        ]
+    )
 
     nombre = models.CharField(
         max_length=150,

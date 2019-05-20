@@ -8,12 +8,15 @@ class AlumnoForm(forms.ModelForm):
         model = Alumno
         fields = ['boleta', 'nombre', 'carrera']
 
+    boleta = forms.IntegerField(min_value=1936600000, max_value=9999999999)
+
 class ResponsableForm(AlumnoForm):
     class Meta(AlumnoForm.Meta):
         fields = AlumnoForm.Meta.fields
 
     def clean(self):
         data = self.cleaned_data
+        
         try:
             alumno = Alumno.objects.get(boleta=data["boleta"])
             if data["nombre"] != alumno.nombre or data["carrera"] != alumno.carrera:
