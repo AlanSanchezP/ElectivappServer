@@ -63,3 +63,6 @@ class Test_Actividad_Views(TestCase):
 
         obj.insertarActividad(alumno=alumnoB, duracion=1, tipo=tipo.id)
         self.assertEquals(alumnoB.terminado, False)
+    
+    def test_obtener_url(self):
+        

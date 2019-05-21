@@ -34,7 +34,7 @@ class RegistrarAsistenciaQRAPI(APIView):
             evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
             user = request.data.get('user')
 
-            if url == None or user == None:
+            if url == None or user == None or 'https://www.dae.ipn.mx/vcred/?h=' in url:
                 raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
             page = urlopen(url).read()
@@ -84,7 +84,9 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
         })
 
     try:
-        alumno = Alumno.objects.get(boleta=boleta)
+        alumnoB = Alumno.objects.get(boleta=boleta)
+        alumnoN = Alumno.objects.get(nombre=nombre)
+        alumnoC = Alumno.objects.get(carrera=carrera)
         if evento.asistentes.filter(boleta=boleta).exists():
             raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
         
