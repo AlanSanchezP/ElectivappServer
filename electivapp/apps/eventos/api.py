@@ -142,4 +142,4 @@ class RegistrarAsistenciaAPI(APIView):
             return Response(response)
 
         except EventoAuditorio.DoesNotExist:
-            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
+raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
