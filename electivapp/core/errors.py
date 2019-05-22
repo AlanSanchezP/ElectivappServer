@@ -57,6 +57,11 @@ ATTENDANCE_MISSING_PARAMETER = {
     'code': 206
 }
 
+ATTENDANCE_NONMATCHING_DATA = {
+    'detail': _('El nombre y/o la carrera no coinciden con esta boleta.'),
+    'code': 207
+}
+
 # Errores de autenticacion y permisos
 AUTHENTICATION_INVALID_CREDENTIALS = {
     'detail': _('Boleta y/o contraseña inválidos.'),

@@ -34,7 +34,7 @@ class RegistrarAsistenciaQRAPI(APIView):
             evento = EventoAuditorio.objects.get(id=request.data.get('evento'), validado=True)
             user = request.data.get('user')
 
-            if url == None or user == None or 'https://www.dae.ipn.mx/vcred/?h=' in url:
+            if url == None or user == None:
                 raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
             page = urlopen(url).read()
@@ -65,6 +65,8 @@ class RegistrarAsistenciaQRAPI(APIView):
 
 def registrarAsistencia(boleta, nombre, carrera, evento, user):
     alumno = None
+    code = None
+
     try:
         responsable = evento.esResponsable(Responsable.objects.get(id=user).username)
         if responsable != True:
@@ -84,14 +86,8 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
         })
 
     try:
-        alumnoB = Alumno.objects.get(boleta=boleta)
-        alumnoN = Alumno.objects.get(nombre=nombre)
-        alumnoC = Alumno.objects.get(carrera=carrera)
-        if evento.asistentes.filter(boleta=boleta).exists():
-            raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
+        alumno = Alumno.objects.get(boleta=boleta)
         
-    except Alumno.DoesNotExist:
-        code = None
         for key, value in CARRERAS:
             if value.upper() == carrera:
                 code = key
@@ -100,6 +96,13 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
         if code == None:
             raise exceptions.ValidationError(errors.ATTENDANCE_INVALID_PROGRAM)
 
+        if alumno.nombre != nombre or alumno.carrera != code:
+            raise exceptions.ValidationError(errors.ATTENDANCE_NONMATCHING_DATA)
+
+        if evento.asistentes.filter(boleta=boleta).exists():
+            raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
+        
+    except Alumno.DoesNotExist:
         alumno = Alumno.objects.create(
             boleta=boleta,
             nombre=nombre,
@@ -139,4 +142,4 @@ class RegistrarAsistenciaAPI(APIView):
             return Response(response)
 
         except EventoAuditorio.DoesNotExist:
-            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
+raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
