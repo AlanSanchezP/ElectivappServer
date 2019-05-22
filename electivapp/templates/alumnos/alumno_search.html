@@ -12,7 +12,7 @@
         <h2 class="col-md-6 text-center mx-auto">Consultar alumno</h2>
     </div>
     <form method="GET" class="row" style="max-width: 500px; margin: 1em auto 0 auto">
-      <input placeholder="Boleta" name="boleta" required type="number" min="0" max="9999999999" class="form-control col-md-8" {% if boleta %}value="{{boleta}}"{% endif %}>
+      <input placeholder="Boleta" name="boleta" required type="number" min="1936000000" max="9999999999" class="form-control col-md-8" {% if boleta %}value="{{boleta}}"{% endif %}>
       <button class="btn btn-primary col-md-3 mx-auto"><i class="fas fa-search"></i> Buscar</button>
     </form>
     {% if alumno %}
