@@ -87,14 +87,14 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
             'detail': 'Boleta y/o contraseña inválidos.',
             'code': 301
         })
+ 
+    for key, value in CARRERAS:
+        if value.upper() == carrera:
+            code = key
+            break
 
     try:
         alumno = Alumno.objects.get(boleta=boleta)
-        
-        for key, value in CARRERAS:
-            if value.upper() == carrera:
-                code = key
-                break
 
         if code == None:
             raise exceptions.ValidationError(errors.ATTENDANCE_INVALID_PROGRAM)
@@ -145,4 +145,4 @@ class RegistrarAsistenciaAPI(APIView):
             return Response(response)
 
         except EventoAuditorio.DoesNotExist:
-raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
+            raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
