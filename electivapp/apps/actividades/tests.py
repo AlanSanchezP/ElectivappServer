@@ -79,9 +79,14 @@ class Test_Actividad_Views(TestCase):
 
     def test_context_data(self):
         obj = RegistrarActividadView()
-        tipo1 = createTipoActividad()
-        tipo2 = createTipoActividad(nombre= "Prueba")
-        self.assertEquals(tipo.)
-        context =obj.get_context_data()
+        tipo1= createTipoActividad()
+        tipo2= createTipoActividad()
+        TIPOS=(
+            (tipo1.id, tipo1.nombre),
+            (tipo2.id, tipo2.nombre),
+        )
+        context = obj.get_context_data()
+
+        self.assertEquals(context['categorias'], TIPOS)
 
         self.assertEquals(context['carreras'], CARRERAS)
