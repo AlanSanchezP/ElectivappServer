@@ -65,6 +65,8 @@ class RegistrarAsistenciaQRAPI(APIView):
 
 def registrarAsistencia(boleta, nombre, carrera, evento, user):
     alumno = None
+    code = None
+
     try:
         responsable = evento.esResponsable(Responsable.objects.get(id=user).username)
         if responsable != True:
@@ -85,11 +87,7 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
 
     try:
         alumno = Alumno.objects.get(boleta=boleta)
-        if evento.asistentes.filter(boleta=boleta).exists():
-            raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
         
-    except Alumno.DoesNotExist:
-        code = None
         for key, value in CARRERAS:
             if value.upper() == carrera:
                 code = key
@@ -98,6 +96,13 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
         if code == None:
             raise exceptions.ValidationError(errors.ATTENDANCE_INVALID_PROGRAM)
 
+        if alumno.nombre != nombre or alumno.carrera != code:
+            raise exceptions.ValidationError(errors.ATTENDANCE_NONMATCHING_DATA)
+
+        if evento.asistentes.filter(boleta=boleta).exists():
+            raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
+        
+    except Alumno.DoesNotExist:
         alumno = Alumno.objects.create(
             boleta=boleta,
             nombre=nombre,
