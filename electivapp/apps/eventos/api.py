@@ -37,6 +37,9 @@ class RegistrarAsistenciaQRAPI(APIView):
             if url == None or user == None:
                 raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
+            if not "https://www.dae.ipn.mx/vcred/?h=" in url:
+                raise exceptions.ValidationError(errors.ATTENDANCE_BAD_URL)
+                
             page = urlopen(url).read()
             document = BeautifulSoup(page, 'html.parser')
 

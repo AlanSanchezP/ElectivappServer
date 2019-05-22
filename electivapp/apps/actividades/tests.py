@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 from .models import TipoActividad, Actividad
 from .views import RegistrarActividadView
-from electivapp.apps.alumnos.models import Alumno
+from electivapp.apps.alumnos.models import Alumno, CARRERAS
 
 def createTipoActividad(nombre="Nombre de prueba", categoria="IV", horasRequeridas=1):
     return TipoActividad.objects.create(
@@ -21,7 +21,7 @@ def createAlumno(boleta=2016601609, nombre="Alan Sánchez Pineda", carrera="IN")
         carrera=carrera,
     )
 
-def createActividad(alumno, tipo, duracion=1, fecha=date.today()):
+def createActividad(duracion=1, alumno=createAlumno(), tipo=createTipoActividad(), fecha=date.today()):
     return Actividad.objects.create(
         duracion=duracion,
         alumno=alumno,
@@ -50,16 +50,38 @@ class Test_Actividad_Views(TestCase):
     def test_insertar_actividad(self):
         obj = RegistrarActividadView()
         tipo = createTipoActividad()
-        alumnoA = createAlumno()
-        alumnoB = createAlumno(boleta=2016601610)
-
+        alumnoINTrue = createAlumno()
+        alumnoINFalse = createAlumno(boleta=2016601610)
+        alumnoAI = createAlumno(carrera= "AI", boleta=2016601238)
+        alumnoELSE = createAlumno(carrera= "CC", boleta=2016601239)
         # Damos 15 creditos al alumno1 para que
         # le falte solo uno
         for i in range(0, 14):
-            actividad = createActividad(tipo=tipo, alumno=alumnoA)
+            actividad = createActividad(tipo=tipo, alumno=alumnoINTrue)
 
-        obj.insertarActividad(alumno=alumnoA, duracion=1, tipo=tipo.id)
-        self.assertEquals(alumnoA.terminado, True)
+        for i in range(0, 18):
+            actividad = createActividad(tipo=tipo, alumno=alumnoAI)
 
-        obj.insertarActividad(alumno=alumnoB, duracion=1, tipo=tipo.id)
-        self.assertEquals(alumnoB.terminado, False)
+        for i in range(0, 20):
+            actividad = createActividad(tipo=tipo, alumno=alumnoELSE)
+
+        obj.insertarActividad(alumno=alumnoINTrue, duracion=1, tipo=tipo.id)
+        self.assertEquals(alumnoINTrue.terminado, True)
+
+        obj.insertarActividad(alumno=alumnoINFalse, duracion=1, tipo=tipo.id)
+        self.assertEquals(alumnoINFalse.terminado, False)
+
+        obj.insertarActividad(alumno=alumnoAI, duracion=1, tipo=tipo.id)
+        self.assertEquals(alumnoAI.terminado, True)
+
+        obj.insertarActividad(alumno=alumnoELSE, duracion=1, tipo=tipo.id)
+        self.assertEquals(alumnoELSE.terminado, True)
+
+    def test_context_data(self):
+        obj = RegistrarActividadView()
+        tipo1 = createTipoActividad()
+        tipo2 = createTipoActividad(nombre= "Prueba")
+        self.assertEquals(tipo.)
+        context =obj.get_context_data()
+
+        self.assertEquals(context['carreras'], CARRERAS)
