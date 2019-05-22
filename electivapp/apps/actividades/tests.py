@@ -21,7 +21,7 @@ def createAlumno(boleta=2016601609, nombre="Alan Sánchez Pineda", carrera="IN")
         carrera=carrera,
     )
 
-def createActividad(duracion=1, alumno=createAlumno(), tipo=createTipoActividad(), fecha=date.today()):
+def createActividad(alumno, tipo, duracion=1, fecha=date.today()):
     return Actividad.objects.create(
         duracion=duracion,
         alumno=alumno,

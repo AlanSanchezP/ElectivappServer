@@ -47,7 +47,7 @@ ATTENDANCE_INVALID_PROGRAM = {
     'code': 204
 }
 
-ATTENDANCE_BAD_URL = {
+ATTENDANCE_URL_ERROR = {
     'detail': _('No se pudo acceder a la página.'),
     'code': 205
 }
@@ -60,6 +60,11 @@ ATTENDANCE_MISSING_PARAMETER = {
 ATTENDANCE_NONMATCHING_DATA = {
     'detail': _('El nombre y/o la carrera no coinciden con esta boleta.'),
     'code': 207
+}
+
+ATTENDANCE_BAD_URL = {
+    'detail': _('No se pudo acceder a la página.'),
+    'code': 208
 }
 
 # Errores de autenticacion y permisos

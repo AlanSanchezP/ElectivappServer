@@ -62,7 +62,7 @@ class RegistrarAsistenciaQRAPI(APIView):
         except EventoAuditorio.DoesNotExist:
             raise exceptions.ValidationError(errors.EVENT_DOES_NOT_EXIST)
         except URLError:
-            raise exceptions.ValidationError(errors.ATTENDANCE_BAD_URL)
+            raise exceptions.ValidationError(errors.ATTENDANCE_URL_ERROR)
         except AttributeError:
             raise exceptions.ValidationError(errors.ATTENDANCE_MISSING_PARAMETER)
 
