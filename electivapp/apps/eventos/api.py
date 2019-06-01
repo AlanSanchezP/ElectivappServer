@@ -106,11 +106,14 @@ def registrarAsistencia(boleta, nombre, carrera, evento, user):
             raise exceptions.ValidationError(errors.ATTENDANCE_DUPLICATED_STUDENT)
         
     except Alumno.DoesNotExist:
-        alumno = Alumno.objects.create(
+        alumno = Alumno(
             boleta=boleta,
             nombre=nombre,
             carrera=code,
         )
+        alumno.full_clean()
+        alumno.save()
+
 
     evento.asistentes.add(alumno)
     actividad = Actividad.objects.create(

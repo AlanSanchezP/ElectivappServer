@@ -1,6 +1,7 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from electivapp.apps.users.models import User
+from electivapp.core.regex import NAME_REGEX
 
 CARRERAS = (
     ('AI', 'Administración Industrial'),
@@ -23,6 +24,11 @@ class Alumno(models.Model):
 
     nombre = models.CharField(
         max_length=150,
+        validators=[
+            RegexValidator(
+                regex=NAME_REGEX,
+            )
+        ]
     )
 
     carrera = models.CharField(

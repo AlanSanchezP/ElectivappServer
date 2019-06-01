@@ -104,6 +104,7 @@ class RegistrarActividadView(AdminStaffRequiredMixin, TemplateView):
                         nombre=nombre, 
                         carrera=carrera,
                     )
+                    alumno.full_clean()
                     alumno.save()
                     time.sleep(1)
                     self.insertarActividad(alumno, duracion, tipo)

@@ -27,6 +27,7 @@ class ResponsableForm(AlumnoForm):
                 nombre=data["nombre"], 
                 carrera=data["carrera"],
             )
+            alumno.full_clean()
             alumno.save()
             time.sleep(1)
 
@@ -50,6 +51,7 @@ class ResponsableUpdateForm(ResponsableForm):
                 alumno.nombre = data["nombre"]
             if data["carrera"] != alumno.carrera:
                 alumno.carrera = data["carrera"]
+            alumno.full_clean()
             alumno.save()
         except Alumno.DoesNotExist:
             alumno = Alumno(
@@ -57,5 +59,6 @@ class ResponsableUpdateForm(ResponsableForm):
                 nombre=data["nombre"], 
                 carrera=data["carrera"],
             )
+            alumno.full_clean()
             alumno.save()
             time.sleep(1)
