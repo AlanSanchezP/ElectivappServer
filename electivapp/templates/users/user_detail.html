@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}Página auxiliar{% endblock %}
 
 {% block content %}
 <div class="container">
 
   <div class="row">
     <div class="col-sm-12">
-
-      <h2>{{ object.username }}</h2>
-      Bienvenid@
+        <p>Esta es una página auxiliar. Si no eres redirigido al menú principal, da clic en el siguiente botón.</p>
+        <a class="btn btn-large btn-primary" href="/">Ir al menú principal</a>
     </div>
   </div>
 
 
 </div>
 {% endblock content %}
+
+{% block customjs %}
+<script>
+    var admin = '{{user.is_superuser}}';
+    if (admin=='True'){
+        window.location = "/";
+    }
+</script>
+{% endblock %}
 
