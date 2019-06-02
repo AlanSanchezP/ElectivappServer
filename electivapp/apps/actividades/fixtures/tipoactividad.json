@@ -1,10 +1,38 @@
 [
   {
+    "model": "actividades.categoria",
+    "pk": 1,
+    "fields": {
+      "nombre": "Inquietudes vocacionales"
+    }
+  },
+  {
+    "model": "actividades.categoria",
+    "pk": 2,
+    "fields": {
+      "nombre": "Complementarias a la formación"
+    }
+  },
+  {
+    "model": "actividades.categoria",
+    "pk": 3,
+    "fields": {
+      "nombre": "Enfásis en la profesión"
+    }
+  },
+  {
+    "model": "actividades.categoria",
+    "pk": 4,
+    "fields": {
+      "nombre": "Proyectos especiales"
+    }
+  },
+  {
     "model": "actividades.tipoactividad",
     "pk": 1,
     "fields": {
       "nombre": "Evento en auditorio",
-      "categoria": "EP",
+      "categoria": 3,
       "horasRequeridas": 16
     }
   }

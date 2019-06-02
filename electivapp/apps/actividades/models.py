@@ -24,6 +24,9 @@ class Categoria(models.Model):
         unique=True
     )
 
+    def __str__(self):
+        return self.nombre
+
 # Create your models here.
 class TipoActividad(models.Model):
     nombre = models.CharField(
@@ -32,12 +35,13 @@ class TipoActividad(models.Model):
             RegexValidator(
                 regex=SIMPLE_NAME_REGEX,
             )
-        ]
+        ],
+        unique=True
     )
 
-    categoria = models.CharField(
-        max_length=2,
-        choices=CATEGORIAS,
+    categoria = models.ForeignKey(
+        Categoria,
+        on_delete=models.CASCADE,
     )
 
     horasRequeridas = models.PositiveIntegerField()
@@ -45,6 +49,9 @@ class TipoActividad(models.Model):
     def clean(self, *args, **kwargs):
         if self.horasRequeridas == 0:
             raise ValidationError(ACTIVITY_TYPE_CREDITS['detail'])
+
+    def __str__(self):
+        return self.nombre
 
 class Actividad(models.Model):
     duracion = models.DecimalField(
@@ -67,3 +74,6 @@ class Actividad(models.Model):
     def valor(self):
         valorPorHora = 1 / self.tipo.horasRequeridas
         return round(valorPorHora * float(self.duracion), 2)
+
+    def __str__(self):
+        return self.alumno.nombre + ' (' + self.fecha.strftime('%m/%d/%Y') + ', ' + self.tipo.nombre + ')'
