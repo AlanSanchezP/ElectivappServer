@@ -1,7 +1,9 @@
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView, UpdateView, FormView
 from django.http import HttpResponseRedirect
@@ -33,9 +35,41 @@ class UserListView(AdminStaffRequiredMixin, ListView):
 
 user_list_view = UserListView.as_view()
 
+# class UserPasswordView(FormView):
+#     model = User
+#     template_name = 'account/password_set.html'
+#     form = PasswordChangeForm(request.user, request.POST)
+#     success_url = reverse_lazy('home')
+
+#     def form_valid(self, form):
+#         user = form.save()
+#         update_session_auth_hash(request, user)  # Important!
+#         messages.success(self.request, "Contraseña cambiada con éxito")
+
+#         return HttpResponseRedirect(self.get_success_url())
+
+# user_pass_view = UserPasswordView.as_view()
+
+def user_pass_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, "Contraseña cambiada con éxito")
+            return HttpResponseRedirect(reverse_lazy('home'))
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+        return render(request, 'account/password_set.html', {
+            'form': form
+        })
+
+
 class UserFormView(AdminStaffRequiredMixin, FormView):
     model = User
-    template_name = 'users/user_form.html'
+    template_name = 'account/user_form.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('home')
 
@@ -44,11 +78,7 @@ class UserFormView(AdminStaffRequiredMixin, FormView):
         user.is_superuser = True
         user.is_staff = True
         user.save()
-        messages.add_message(
-                self.request, 
-                messages.SUCCESS, 
-                "Usuario {0} dado de alta con éxito.".format(user.username),
-            )
+        messages.success(self.request, "Usuario {0} dado de alta con éxito.".format(user.username))
 
         return HttpResponseRedirect(self.get_success_url())
 
