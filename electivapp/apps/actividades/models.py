@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
+from electivapp.core.regex import SIMPLE_NAME_REGEX
 from electivapp.core.errors import ACTIVITY_TYPE_CREDITS
 from electivapp.apps.alumnos.models import Alumno
 
@@ -15,6 +17,11 @@ CATEGORIAS = (
 class TipoActividad(models.Model):
     nombre = models.CharField(
         max_length=150,
+        validators=[
+            RegexValidator(
+                regex=SIMPLE_NAME_REGEX,
+            )
+        ]
     )
 
     categoria = models.CharField(

@@ -1,14 +1,21 @@
 from datetime import datetime, timezone, date, timedelta
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
+from electivapp.core.regex import SIMPLE_NAME_REGEX
 from electivapp.core.errors import EVENT_HAS_NOT_STARTED, EVENT_HAS_FINISHED, EVENT_OVERLAP, EVENT_INVALID_DATE
 from electivapp.apps.alumnos.models import Alumno, Responsable
 
 # Create your models here.
 class EventoAuditorio(models.Model):
     nombre = models.CharField(
-        max_length=200
+        max_length=200,
+        validators=[
+            RegexValidator(
+                regex=SIMPLE_NAME_REGEX,
+            )
+        ]
     )
 
     fecha = models.DateTimeField()
