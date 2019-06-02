@@ -4,7 +4,15 @@
 {% block title %}Creación de usuario administrador{% endblock %}
 
 {% block content %}
-  <h1>Creación de usuario administrador</h1>
+<div class="container">
+    <div class="row" style="align-items: center">
+        <a href="{% url 'home' %}" class="btn btn-secondary">
+          <i class="fas fa-chevron-left"></i>
+          Volver
+        </a>
+        <h1 class="col-md-6 text-center mx-auto">Crear usuario administrador</h1>
+    </div>
+</div>
   <div class="alert alert-warning">Dé de alta solamente a personas de confianza.</div>
   <form class="form-horizontal" method="post">
     {% csrf_token %}

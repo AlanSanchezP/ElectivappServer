@@ -6,11 +6,13 @@ from electivapp.apps.users.views import (
     user_update_view,
     user_detail_view,
     user_form_view,
+    UsersHomeView
 )
 
 app_name = "users"
 urlpatterns = [
-    path("", view=user_list_view, name="list"),
+    path("", view=UsersHomeView.as_view(), name="home"),
+    path("list", view=user_list_view, name="list"),
     path("~redirect/", view=user_redirect_view, name="redirect"),
     path("create/", view=user_form_view, name="create"),
     path("~update/", view=user_update_view, name="update"),

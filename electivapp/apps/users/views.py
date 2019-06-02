@@ -14,6 +14,9 @@ User = get_user_model()
 class HomepageView(AdminStaffRequiredMixin, TemplateView):
     template_name = 'pages/home.html'
 
+class UsersHomeView(AdminStaffRequiredMixin, TemplateView):
+    template_name = 'pages/admin_menu.html'
+
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User

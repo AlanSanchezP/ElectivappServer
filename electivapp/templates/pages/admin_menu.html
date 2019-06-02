@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a class="btn btn-secondary" href="{% url 'home' %}">
+    <i class="fas fa-chevron-left"></i>
+    Volver
+</a>
+<div class="container menu-grid">
+    <a class="btn btn-info btn-lg" href="{% url 'users:list' %}">
+        <i style="font-size: 2em" class="fas fa-list-alt"></i><br>Lista de administradores</a>
+    <a class="btn btn-info btn-lg" href="{% url 'users:create' %}">
+        <i style="font-size: 2em" class="fas fa-plus-circle"></i><br>Registrar administrador</a>
+</div>
+{% endblock content %}
