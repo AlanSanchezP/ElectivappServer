@@ -2,6 +2,7 @@ import time
 from datetime import datetime
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.core.exceptions import ValidationError
 from django.views.generic import TemplateView, FormView, UpdateView, DeleteView, ListView
 from django.http import HttpResponseRedirect
 
@@ -99,15 +100,25 @@ class RegistrarActividadView(AdminStaffRequiredMixin, TemplateView):
                     else:
                         raise ValueError()
                 except Alumno.DoesNotExist:
-                    alumno = Alumno(
-                        boleta=boleta, 
-                        nombre=nombre, 
-                        carrera=carrera,
-                    )
-                    alumno.full_clean()
-                    alumno.save()
-                    time.sleep(1)
-                    self.insertarActividad(alumno, duracion, tipo)
+                    try:
+                        alumno = Alumno(
+                            boleta=boleta, 
+                            nombre=nombre, 
+                            carrera=carrera,
+                        )
+                        alumno.full_clean()
+                        alumno.save()
+                        time.sleep(1)
+                        self.insertarActividad(alumno, duracion, tipo)
+                    except ValidationError:
+                        errores = True
+                        messages.add_message(
+                            request, 
+                            messages.ERROR,
+                            "'{0}' no es un valor válido para el nombre del alumno.".format(alumno.nombre),
+                            "{0} {1} {2} {3}".format(boleta,carrera,tipo,duracion)
+                        )
+
                 except ValueError:
                     errores = True
                     messages.add_message(
