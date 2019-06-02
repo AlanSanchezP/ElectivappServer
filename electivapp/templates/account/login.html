@@ -19,5 +19,7 @@
   {% endif %}
   <button class="primaryAction btn btn-primary" type="submit">{% trans "Sign In" %}</button>
 </form>
-
+<p style="text-align:center; margin-top: 20px">
+    <a href="{% url 'account_reset_password' %}">Recuperar contraseña olvidada</a>
+</p>
 {% endblock %}
