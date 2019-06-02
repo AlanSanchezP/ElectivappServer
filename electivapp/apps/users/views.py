@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.contrib import messages
-from django.views.generic import TemplateView, DetailView, ListView, RedirectView, UpdateView, FormView
+from django.views.generic import TemplateView, DetailView, ListView, RedirectView, UpdateView, FormView, DeleteView
 from django.http import HttpResponseRedirect
 
 from .forms import UserCreationForm
@@ -32,6 +32,7 @@ class UserListView(AdminStaffRequiredMixin, ListView):
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
+    queryset = User.objects.filter(is_superuser=True)
 
 
 user_list_view = UserListView.as_view()
@@ -77,3 +78,9 @@ class UserRedirectView(AdminStaffRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+class UserDeleteView(AdminStaffRequiredMixin, DeleteView):
+    template_name = 'users/user_confirm_delete.html'
+    model = User
+    context_object_name = 'user'
+    success_url = reverse_lazy('users:list')
