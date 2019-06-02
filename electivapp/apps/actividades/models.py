@@ -13,6 +13,17 @@ CATEGORIAS = (
     ('PE', 'Proyectos especiales'),
 )
 
+class Categoria(models.Model):
+    nombre = models.CharField(
+        max_length=150,
+        validators=[
+            RegexValidator(
+                regex=SIMPLE_NAME_REGEX,
+            )
+        ],
+        unique=True
+    )
+
 # Create your models here.
 class TipoActividad(models.Model):
     nombre = models.CharField(

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Nueva categoría{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row" style="align-items: center">
+        <a href="{% url 'actividades:categorias' %}" class="btn btn-secondary">
+          <i class="fas fa-chevron-left"></i>
+          Volver
+        </a>
+        <h1 class="col-md-6 text-center mx-auto">Nueva categoría</h2>
+    </div>
+</div>
+  <form class="form-horizontal formulario" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn">Guardar</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

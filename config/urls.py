@@ -14,19 +14,19 @@ urlpatterns = [
     # User management
     path(
         "users/",
-        include("electivapp.apps.users.urls", namespace="users"),
+        include("electivapp.apps.users.urls"),
     ),
     path(
         "actividades/",
-        include("electivapp.apps.actividades.urls", namespace="actividades"),
+        include("electivapp.apps.actividades.urls"),
     ),
     path(
         "alumnos/",
-        include("electivapp.apps.alumnos.urls", namespace="alumnos"),
+        include("electivapp.apps.alumnos.urls"),
     ),
     path(
         "eventos/",
-        include("electivapp.apps.eventos.urls", namespace="eventos"),
+        include("electivapp.apps.eventos.urls"),
     ),
     path("accounts/", include("allauth.urls")),
     path("api-auth/", include("rest_framework.urls")),

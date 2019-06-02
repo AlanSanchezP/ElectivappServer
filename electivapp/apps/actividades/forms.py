@@ -1,6 +1,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .models import TipoActividad
+from .models import Categoria, TipoActividad
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        exclude = ['']
 
 class TipoActividadForm(forms.ModelForm):
     class Meta:

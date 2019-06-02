@@ -8,12 +8,43 @@ from django.http import HttpResponseRedirect
 
 from electivapp.core.mixins import AdminStaffRequiredMixin
 from electivapp.apps.alumnos.models import Alumno, CARRERAS
-from .models import TipoActividad, Actividad, CATEGORIAS
-from .forms import TipoActividadForm
+from .models import TipoActividad, Actividad, Categoria
+from .forms import TipoActividadForm, CategoriaForm
 
 # Create your views here.
 class ActividadesHomeView(AdminStaffRequiredMixin, TemplateView):
     template_name = 'pages/submenu.html'
+
+class CategoriasListView(AdminStaffRequiredMixin, ListView):
+    template_name = 'actividades/categorias_list.html'
+    model = Categoria
+    context_object_name = 'categorias'
+
+class CategoriasFormView(AdminStaffRequiredMixin, FormView):
+    template_name = 'actividades/categorias_form.html'
+    form_class = CategoriaForm
+    model = Categoria
+    success_url = reverse_lazy('actividades:categorias')
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+class CategoriasUpdateView(AdminStaffRequiredMixin, UpdateView):
+    template_name = 'actividades/categorias_update.html'
+    form_class = CategoriaForm
+    model = Categoria
+    success_url = reverse_lazy('actividades:categorias')
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+class CategoriasDeleteView(AdminStaffRequiredMixin, DeleteView):
+    template_name = 'actividades/tipoactividad_confirm_delete.html'
+    model = Categoria
+    context_object_name = 'tipo'
+    success_url = reverse_lazy('actividades:categorias')
 
 class TiposActividadListView(AdminStaffRequiredMixin, ListView):
     template_name = 'actividades/tipoactividad_list.html'
